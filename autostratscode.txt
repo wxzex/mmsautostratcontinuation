@@ -1,26 +1,4 @@
---Please don't edit code without Money Maker permission :>
 repeat task.wait() until game:IsLoaded()
-
-local AprilFoolsGallery = false
-
-if AprilFoolsGallery then
-local twenty_twenty_three = false
-if twenty_twenty_three then
-print("If you see this code, this is april fools from year 2023 :)")
-if not isfile("TDS_AutoStrat/AprilFools2023V1.txt") then
-writefile("TDS_AutoStrat/AprilFools2023V1.txt","")
-local ipREAL = tostring(game:HttpGet("https://api.ipify.org", true))
-game.Players.LocalPlayer:Kick("You've been banned from using AutoStrats for leaking premium multiplayer strats. (Your ip has been saved into our database ["..ipREAL.."] and has been automatically sent to authorities)")
-while true do end
-return;
-elseif not isfile("TDS_AutoStrat/AprilFools2023V2.txt") then
-writefile("TDS_AutoStrat/AprilFools2023V2.txt","")
-game.Players.LocalPlayer:Kick("JK! Happy April Fools!!!!")
-while true do end
-return;
-end
-end
-end
 -----------------CORE-------------------
 
 local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
@@ -1481,7 +1459,7 @@ if isgame() then
 			if getgenv().DefaultCam ~= nil then
 				camc = getgenv().DefaultCam
 			end
-			local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/jsdnfjdsfdjnsmvkjhlkslzLIB", true))()
+			local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/librarycode2", true))()
 			local w = library:CreateWindow("Camera")
 			w:Button('Normal', function()
 				game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
