@@ -1,0 +1,29 @@
+getgenv().Commander = false
+getgenv().Swarmer = true
+getgenv().Gladiator = true
+getgenv().Medic = false
+loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/sjkdkjlfdjnnmklcvxjNotifCr"))()
+say("SCRIPT","Made by Money Maker")
+while wait(1) do
+	for i,v in pairs(game:GetService("Workspace").Towers:GetChildren()) do 
+		if v:FindFirstChild("Owner") then 
+		if v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Commander" then
+		if getgenv().Commander then
+			game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Call Of Arms"})
+		end
+		elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Swarmer" then
+		if getgenv().Swarmer then
+            game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Swarm"})
+		end
+		elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Gladiator" then
+		if getgenv().Gladiator then
+            game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Warrior's Call"})
+		end
+		elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Medic" then
+		if getgenv().Medic then
+            game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Cleansing"})
+		end	
+		end
+		end
+	end
+end
