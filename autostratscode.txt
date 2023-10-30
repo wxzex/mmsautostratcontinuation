@@ -63,7 +63,7 @@ getgenv().ReportError = function(errorNum, Message)
   request(abcdef)
 end
 end)
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/jsdnfjdsfdjnsmvkjhlkslzLIB", true))()
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/libcode", true))()
 if getgenv().Multiplayer then
   if getgenv().UserKey then
     local check = nil
