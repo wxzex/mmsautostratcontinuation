@@ -10,3 +10,6 @@ loadstring(game:HttpGet("https://mmdevelopment.xyz/Scripts/TDSRecorder"))()
 
 # tutorial how to use strats
 just put it to autoexec
+
+# discord server for this continuation
+https://discord.gg/rSyQEkBb
