@@ -1,5 +1,8 @@
 # mmsautostratcontinuation
 
+# what is that?
+this is the continuation of moneymaker's tower defense simulator(on roblox) autofarm.
+
 # tutorial how to use recorder
 getgenv().StratName = "strategyname"
 
