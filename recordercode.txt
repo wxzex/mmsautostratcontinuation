@@ -1,5 +1,4 @@
 local RecVersion = "V2.3"
-print("Gurty is a bitch! (Gurt#9903)")
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local State = ReplicatedStorage.State;
 local RS = game:WaitForChild('ReplicatedStorage')
