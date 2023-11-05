@@ -319,7 +319,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcon
 end)
 w:Button("Auto Chain V2 (Multiple Uses)", function()
 if not getgenv().OtherCOAV2 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/autochainv2"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/tdsautochainv2"))()
 spawn(function()
 repeat task.wait() until getgenv().Coms ~= nil
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
