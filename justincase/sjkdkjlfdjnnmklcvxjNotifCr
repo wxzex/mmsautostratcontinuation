@@ -1,0 +1,28 @@
+if game.CoreGui:FindFirstChild("NotificationUI") then
+warn("Already loaded gui!")
+else
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/justincase/kluzkjhfjdzuiokzNotif"))()
+end
+local UI = game.CoreGui.NotificationUI
+function say(NotificationTitle, NotificationText, Delay)
+		if Delay == nil or Delay == "" then
+		Delay = 10
+		end
+		NotificationDuration = Delay
+		local Notifications = UI.Notifications:GetChildren()
+		for i,v in pairs(Notifications) do
+			v:TweenPosition(UDim2.new(0.97, 0, v.Position.Y.Scale - 0.12, 0),"InOut","Linear",0.2,true)
+		end
+		local NewNotification = UI.NotificationTemplate:Clone()
+		NewNotification.Name = tostring(#Notifications+1)
+		NewNotification.Header.HeaderLabel.Text = NotificationTitle
+		NewNotification.Parent = UI.Notifications
+		NewNotification.Text.Text = NotificationText
+		NewNotification:TweenPosition(UDim2.new(0.97, 0, 0.85, 0),"InOut","Linear",0.2,true)
+		delay(NotificationDuration,function()
+			NewNotification:TweenPosition(UDim2.new(1.5, 0, NewNotification.Position.Y.Scale, 0),"InOut","Linear",0.2,true)
+			wait(0.2)
+			NewNotification:Destroy()
+		end)
+	end
+return say
