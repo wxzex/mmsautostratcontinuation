@@ -1512,7 +1512,7 @@ function CheckTroop(troop)
 end
 function skip()
 	if isgame() then
-		RSRF:InvokeServer("Waves","Skip")
+		RSRF:InvokeServer("Voting","Skip")
 		getgenv().output("Skipped Wave")
 	end
 end
