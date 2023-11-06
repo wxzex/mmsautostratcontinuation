@@ -555,7 +555,7 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
                 sendw("Activated "..Info.Name.." In "..Info.Troop.Name)
             end
         end
-    elseif args[1] == "Waves" and args[2] == "Skip" then
+    elseif args[1] == "Voting" and args[2] == "Skip" then
         getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Skip("..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
         getgenv().recstatus = "Skipped Wave"
         if getgenv().LoggerWindow then
