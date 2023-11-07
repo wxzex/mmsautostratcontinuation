@@ -1,11 +1,6 @@
 repeat task.wait() until game:IsLoaded()
 -----------------CORE-------------------
 
-local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
-assert(not prompt:FindFirstChild("ErrorPrompt"), prompt:FindFirstChild("ErrorPrompt") and wait(2) and game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer))
-prompt.ChildAdded:Connect(function(child)
-   assert(child, typeof(child) == "Instance" and child.Name == "ErrorPrompt" and child.ClassName == "Frame" and wait(2) and game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer))
-end)
 if not getexecutorname then
 	function getexecutorname() return 'Other'; end
 elseif not string.find(getexecutorname(),"ScriptWare") then
@@ -499,7 +494,7 @@ if game.PlaceId == 5591597781 then
               Co = 0
               repeat
               spawn(function()
-                WebSocketC = syn.websocket.connect('ws://127.0.0.1:1337')
+                WebSocketC = websocket.connect('ws://127.0.0.1:1337')
               end)
               Co = Co+1
               if Co >= 4 then
