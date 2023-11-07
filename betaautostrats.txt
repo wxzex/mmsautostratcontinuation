@@ -50,7 +50,7 @@ if game.PlaceId == 3260590327 then
   w:Section("")
   w:Section("Discord Server :")
   w:Button("Copy Discord Invite", function()
-    setclipboard("https://discord.gg/rSyQEkBb")
+    setclipboard("https://discord.com/invite/3thBJx2axb")
   end)
   w:Button("Auto Join Discord Server", function()
     request = http_request or request or HttpPost or syn.request
@@ -64,7 +64,7 @@ if game.PlaceId == 3260590327 then
     Body = game:GetService("HttpService"):JSONEncode({
       cmd = "INVITE_BROWSER",
       args = {
-          code = "rSyQEkBb"
+          code = "3thBJx2axb"
       },
       nonce = game:GetService("HttpService"):GenerateGUID(false)
   }),
@@ -494,6 +494,46 @@ if game.PlaceId == 5591597781 then
           wait(5)
           getgenv().Webhook = true
           if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
+            if syn then
+              WebSocketC = nil
+              Co = 0
+              repeat
+              spawn(function()
+                WebSocketC = syn.websocket.connect('ws://127.0.0.1:1337')
+              end)
+              Co = Co+1
+              if Co >= 4 then
+                getgenv().output("Failed to connect to Private Server Program")
+                wait(5)
+                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+              end
+              wait(1)
+              until WebSocketC
+              WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
+              WebSocketC:Close()
+              repeat wait() until getgenv().SentWebhook
+              game:Shutdown()
+            elseif Krnl then
+              WebSocketC = nil
+              Co = 0
+              repeat
+              spawn(function()
+                WebSocketC = Krnl.WebSocket.connect('ws://127.0.0.1:1337')
+              end)
+              Co = Co+1
+              if Co >= 4 then
+                getgenv().output("Failed to connect to Private Server Program")
+                wait(5)
+                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+              end
+              wait(1)
+              until WebSocketC
+              WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
+              WebSocketC:Close()
+              repeat wait() until getgenv().SentWebhook
+              game:Shutdown()
+            elseif getexecutorname or identifyexecutor then
+              if string.find(getexecutorname(),"ScriptWare") or identifyexecutor() == "ScriptWare" then
                 WebSocketC = nil
                 Co = 0
                 repeat
@@ -523,12 +563,6 @@ if game.PlaceId == 5591597781 then
               game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
             end
           end
-          end
-        end
-      end
-      end)
-    end
-  end)
   spawn(function()
     while wait(0.1) do
       if getgenv().Webhook == true then
@@ -642,7 +676,7 @@ elseif not string.find(getexecutorname(),"ScriptWare") then
 end
 local PlayerUserId = game.Players.LocalPlayer.UserId
 fileprefix = "TDS_AutoStrat/"
-if syn and not getgenv().IsMultiStrat and not getgenv().ExecDis and then 
+if syn and not getgenv().IsMultiStrat and not getgenv().ExecDis then 
 syn.queue_on_teleport("loadstring(readfile(\"TDS_AutoStrat/LastStrat_"..PlayerUserId..".txt\"))()")
 elseif not getgenv().IsMultiStrat and not getgenv().ExecDis then
 queue_on_teleport("loadstring(readfile(\"TDS_AutoStrat/LastStrat_"..PlayerUserId..".txt\"))()")
@@ -742,16 +776,66 @@ end)
 printall("More players check online")
 spawn(function()
 	task.wait(10)
-	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().UserKey then
+	if isgame() and #game.Players:GetChildren() > 1 then
 		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		return;
+    end
+end)
+printall("Multiplayer check online")
 --[[
 if not isgame() then
 	task.wait(1)
 	if not isfolder("TDS_AutoStrat") then
 		makefolder("TDS_AutoStrat")
 	end
-
+	if not isfile(fileprefix.."Troll.txt") then
+		local check = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+		local check1 = check:WaitForChild("LobbyGui")
+		local noti = game:GetService("Players").LocalPlayer.PlayerGui.LobbyGui.Prompt.Containers.Message.Notice
+		local gui = game:GetService("Players").LocalPlayer.PlayerGui.LobbyGui
+		noti.Message.Text = "We are sorry to announce this to you, your account has been detected using one of the following cheats/scripts : AutoFarm, AutoStrat, Equipper, TDS Recorder. Your account has been reseted and you got disqualified from this event and every upcoming one."
+		noti.Visible = true
+		noti.Active = true
+		gui.Menu.Buttons.Achievements:Remove()
+		for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.LobbyGui.Hotbar.Troops:GetDescendants()) do
+			if v.Name == "Hint" or v.Name == "Icon" or v.Name == "Label" then
+				v:Remove()
+			end
+		end
+		gui.Hotbar.Level.Label.Text = "Level 0 [0/10]"
+		gui.Hotbar.Level.Bar:Remove()
+		gui.Hotbar.Stats.Triumphs.Amount.Text = "0"
+		gui.Hotbar.Stats.Wins.Amount.Text = "0"
+		gui.Menu.Containers.Shop:Remove()
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Troops.Display:GetDescendants()) do
+			v:Remove()
+		end
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Troops.Holder.Troops:GetDescendants()) do
+			v:Remove()
+		end
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Emotes.Display:GetDescendants()) do
+			v:Remove()
+		end
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Emotes.Holder:GetDescendants()) do
+			v:Remove()
+		end
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Crates.Display:GetDescendants()) do
+			v:Remove()
+		end
+		for i, v in pairs(gui.Menu.Containers.Inventory.Content.Pages.Crates.Holder:GetDescendants()) do
+			v:Remove()
+		end
+		writefile(fileprefix.."Troll.txt", "ctnC+5tLWhjjJZccUxSTG8casrMsCITT/za/3ELcQSVzz/Wm0xpJ2Ksf11a/ZZkDcuZ4fLp3SCz23g2zeiAnVaygF1HK6IgZvZqibdDKAgqz20JoMIZhJ4OofcXh+hspdYxF2WAJXsd1Ixx9FXwOSg==")
+		writefile("xdieee.txt", "KxjhVghCJH")
+	else
+		local noti = game:GetService("Players").LocalPlayer.PlayerGui.LobbyGui.Prompt.Containers.Message.Notice
+		noti.Message.Text = "Thing with data wipe was a joke lol, have a nice day!"
+		noti.Visible = true
+		noti.Active = true
+		spawn(function()
+		task.wait(3)
+		noti.Visible = false
+		end)
 	end
 end
 ]]
@@ -1278,7 +1362,7 @@ function CheckTroop(troop)
 end
 function skip()
 	if isgame() then
-		RSRF:InvokeServer("Voting","Skip")
+		RSRF:InvokeServer("Waves","Skip")
 		getgenv().output("Skipped Wave")
 	end
 end
@@ -1327,6 +1411,7 @@ function scrip:Map(map, antimulti, type)
 		while true do end
 	end
 	local maxplayers = 1
+	if not isgame() then
 		maxplayers = getgenv().PlayerNumber
 		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
 	end
@@ -1877,6 +1962,15 @@ if game.ReplicatedStorage.State.Timer.Time.Value > 50000 then
 end
 end
 end)
+--[[spawn(function()
+	if isgame() then
+	repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == 49 and RS.State.Timer.Time.Value == 7 or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == 7
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, true)
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Write({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog},{["Icon"] = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=150&h=150", ["Author"] = game.Players.LocalPlayer.Name, ["Text"] = "I need to suck my cock Commander. I masturbate 1 time for 1 second and then I go to bed with my sister. Commander PLEASE HELP ME!!! If you got this msg dm Money Maker"})
+	task.wait(1)
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, false)
+	end
+end)]]
 spawn(function()
 	if not game.Players.LocalPlayer:IsInGroup(4914494) then
 		setclipboard("https://www.roblox.com/groups/4914494/Paradoxum-Games")
