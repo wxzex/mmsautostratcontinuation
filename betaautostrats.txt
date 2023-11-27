@@ -1708,6 +1708,31 @@ function scrip:Map(map, antimulti, type)
 
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args_start))
     end
+	if game.PlaceId == "5591597781" then
+		local args1 = {
+			[1] = "LobbyVoting",
+			[2] = "Override",
+			[3] = map
+		}
+	
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args1))
+		wait(0.1)
+	
+		local args2 = {
+			[1] = "LobbyVoting",
+			[2] = "Vote",
+			[3] = map,
+			[4] = Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328)
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args2))
+	
+		local args3 = {
+			[1] = "LobbyVoting",
+			[2] = "Ready"
+		}
+	
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args3))
+	end	 
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
 	makefolder("TDS_AutoStrat")
