@@ -1,6 +1,11 @@
 repeat task.wait() until game:IsLoaded()
 -----------------CORE-------------------
 
+local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
+assert(not prompt:FindFirstChild("ErrorPrompt"), prompt:FindFirstChild("ErrorPrompt") and wait(2) and game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer))
+prompt.ChildAdded:Connect(function(child)
+   assert(child, typeof(child) == "Instance" and child.Name == "ErrorPrompt" and child.ClassName == "Frame" and wait(2) and game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer))
+end)
 if not getexecutorname then
 	function getexecutorname() return 'Other'; end
 elseif not string.find(getexecutorname(),"ScriptWare") then
@@ -37,6 +42,195 @@ getgenv().ReportError = function(errorNum, Message)
 end
 end)
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/libcode", true))()
+if getgenv().Multiplayer then
+  if getgenv().UserKey then
+    local check = nil
+    local request = syn.request or request
+    repeat
+      check = request({Url="whitelist main check url"}).Body
+      task.wait(1)
+    until not check:find("Unable To Wake Up")
+	check = request({Url="whitelist main check url", Headers = {["SecretKeyREAL"]=getgenv().UserKey}}).Body
+	print(check)
+    if check ~= nil then
+      if check == "......." then game.Players.LocalPlayer:Kick("Something Went Wrong...") return; end
+      if check == "........" then game.Players.LocalPlayer:Kick("Key Does Not Match") return; end
+      if check == "........." then game.Players.LocalPlayer:Kick("Your Key Expired, please generate a new one!") return; end
+	  if check == ".........." then game.Players.LocalPlayer:Kick("You don't own premium!") return; end
+      local dynamickey = nil
+      repeat
+        dynamickey = request({Url="whitelist dynamic key fetcher url"})
+        task.wait(1)
+      until not dynamickey.Body:find("Unable To Wake Up")
+      local secretkey = dynamickey.Headers["Yomama2137"]
+      dynamickey = dynamickey.Body
+      local decryptedmessage = nil
+      if syn then
+		local success, errorMessage = pcall(function()
+        secretkey = syn.crypt.custom.decrypt("aes-gcm", secretkey, "decryption key", "decryption key 2")
+        decryptedmessage = syn.crypt.custom.decrypt("aes-gcm", check, "decryption key", secretkey)
+		end)
+		if not success then
+			game.Players.LocalPlayer:Kick("Try to put the valid key next time sweetie, alr?")
+			return;
+		end
+      else
+		local success, errorMessage = pcall(function()
+        secretkey = crypt.custom_decrypt(secretkey, "decryption key", "decryption key 2", "GCM")
+        decryptedmessage = crypt.custom_decrypt(check, "decryption key", secretkey, "GCM")
+		end)
+		if not success then
+			game.Players.LocalPlayer:Kick("Try to put the valid key next time sweetie, alr?")
+			return;
+		end
+      end
+      decryptedmessage = game:GetService("HttpService"):JSONDecode(decryptedmessage)
+      decryptedmessage["DySFfsNaKeY2178"] = math.floor(((((decryptedmessage["DySFfsNaKeY2178"] + 5634)/9654645)-435345)*6365)/46345345)
+      if decryptedmessage["SEX123"] ~= "yes plz" then game.Players.LocalPlayer:Kick("Authentication Failed") return; end
+      if decryptedmessage["DySFfsNaKeY2178"] == dynamickey or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+1 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-1 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+2 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-2 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+3 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-3 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+4 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-4 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+5 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-5 then
+        if not getgenv().Player2Id then getgenv().Player2Id=0 end
+        if not getgenv().Player3Id then getgenv().Player3Id=0 end
+        if not getgenv().Player4Id then getgenv().Player4Id=0 end
+        getgenv().player2J = false
+        getgenv().player3J = false
+        getgenv().player4J = false
+        request = http_request or request or HttpPost or syn.request
+        local conn = nil
+        local weblink = "websocket for player communication url"
+        if getgenv().LocalMultiplayerHost then
+          weblink = "websocket for local player communication url"
+        end
+        pcall(function()
+          if syn then
+            conn = syn.websocket.connect()
+          else
+            conn = WebSocket.connect("websocket for player communication url")
+          end
+        end)
+        if not conn then
+        request({Url = "websocket for player communication url"})
+        wait(2)
+        if syn then
+          conn = syn.websocket.connect("websocket for player communication url")
+        else
+          conn = WebSocket.connect("websocket for player communication url")
+        end
+        end
+        getgenv().Connection = conn
+        if getgenv().PlayerType == "Player" then
+        conn.OnMessage:Connect(function(v)
+            local dec = game.HttpService:JSONDecode(v)
+            if dec.action == "Teleport" then
+              if game.JobId ~= dec.jobid then
+                conn:Close()
+                game:GetService("TeleportService"):TeleportToPlaceInstance(3260590327, dec.jobid, game.Players.LocalPlayer)
+              else
+                conn:Send('{"client":"Player","action":"Join","player":'..getgenv().Player..',"hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
+              end
+            elseif dec.action == "Elevator" then
+              game.ReplicatedStorage.RemoteFunction:InvokeServer("Elevators","Enter",game:GetService("Workspace").Elevators:GetChildren()[tonumber(dec.number)])
+            elseif dec.action == "LElevator" then
+              game.ReplicatedStorage.RemoteFunction:InvokeServer("Elevators","Leave")
+            elseif dec.action == "isHost" then
+              if dec.value then
+                conn:Send('{"client":"Player","action":"Join","player":'..getgenv().Player..',"hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
+              end
+            elseif dec.action == "CheckJobId" then
+              if game.JobId ~= dec.jobid then
+                conn:Close()
+                game:GetService("TeleportService"):TeleportToPlaceInstance(3260590327, dec.jobid, game.Players.LocalPlayer)
+              else
+                conn:Send('{"client":"Player","action":"Join","player":'..getgenv().Player..',"hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
+              end
+          end
+        end)
+        conn:Send('{"client":"Player","action":"checkHost","hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
+        elseif getgenv().PlayerType == "Host" then
+          conn.OnMessage:Connect(function(v)
+              local dec = game.HttpService:JSONDecode(v)
+              if dec.action == "Status" then
+                if dec.value == "Player 2" then
+                  getgenv().player2J = true
+                elseif dec.value == "Player 3" then
+                  getgenv().player3J = true
+                elseif dec.value == "Player 4" then
+                  getgenv().player4J = true
+                end
+            end
+          end)
+          conn:Send('{"client":"Host","action":"Join","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+        else
+          game.Players.LocalPlayer:Kick("Failed to get Player Type for Multiplayer")
+        end
+        spawn(function()
+          if getgenv().PlayerType == "Host" and game.PlaceId == 3260590327 then
+            if getgenv().PlayerNumber == 2 then
+              repeat wait() until getgenv().player2J
+            elseif getgenv().PlayerNumber == 3 then
+              repeat wait() until getgenv().player2J and getgenv().player3J
+            elseif getgenv().PlayerNumber == 4 then
+              repeat wait() until getgenv().player2J and getgenv().player3J and getgenv().player4J
+            else
+              game.Players.LocalPlayer:Kick("Failed to get Player Number for Multiplayer")
+            end
+            if #game.Players:GetChildren() > 30 then
+            local pageLimit = math.huge
+            local HttpService = game:GetService('HttpService');
+            local TPService = game:GetService("TeleportService");
+            local nextCursor, serverId;
+            local minimum = math.huge;
+            local Page = 0;
+            repeat
+                local Url = "https://games.roblox.com/v1/games/3260590327/servers/Public?sortOrder=Asc&limit=100";
+                if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
+                local Servers = HttpService:JSONDecode(game:HttpGet(Url));
+                if (Servers) then
+                    nextCursor = Servers.nextPageCursor or nil;
+                    Page = Page + 1;
+                    for _,v in pairs(Servers.data) do
+                        v.playing = v.playing or math.huge;
+                        v.id = v.id or '';
+                        if v.id ~= game.JobId and v.playing <= minimum then
+                            minimum = v.playing;
+                            serverId = v.id;
+                        end
+                    end
+                end
+            until (not nextCursor) or (Page >= pageLimit);
+            if (serverId) then
+                TPService:TeleportToPlaceInstance(3260590327, serverId);
+            end
+            else
+              getgenv().player2J = false
+              getgenv().player3J = false
+              getgenv().player4J = false
+              getgenv().Connection:Send('{"client":"Host","action":"CheckJobId","jobid":"'..game.JobId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+            end
+            if getgenv().PlayerNumber == 2 then
+              repeat wait() until getgenv().player2J
+            elseif getgenv().PlayerNumber == 3 then
+              repeat wait() until getgenv().player2J and getgenv().player3J
+            elseif getgenv().PlayerNumber == 4 then
+              repeat wait() until getgenv().player2J and getgenv().player3J and getgenv().player4J
+            else
+              game.Players.LocalPlayer:Kick("Failed to get Player Number for Multiplayer")
+            end
+            getgenv().FindMap = true
+          end
+        end)
+      else
+        game.Players.LocalPlayer:Kick("Authentication Failed (3)")
+        return;
+      end
+    else
+      game.Players.LocalPlayer:Kick("Authentication Failed (2)")
+      return;
+    end
+  else
+    game.Players.LocalPlayer:Kick("Authentication Failed (1)")
+	return;
+  end
+end
 if game.PlaceId == 3260590327 then
   getgenv().status = "Loading"
   local w = lib:CreateWindow("Lobby")
@@ -273,6 +467,38 @@ spawn(function()
     getgenv().AbortThisShit = true
     getgenv().output('Aborted Script',Color3.fromRGB(255, 0, 0))
     end)
+    if getgenv().Multiplayer and getgenv().PlayerType == "Host" then
+    w:Section("")
+    w:Section("Go To Lobby (Multiplayer)", function()
+      local pageLimit = math.huge
+      local HttpService = game:GetService('HttpService');
+      local TPService = game:GetService("TeleportService");
+      local nextCursor, serverId;
+      local minimum = math.huge;
+      local Page = 0;
+      repeat
+          local Url = "https://games.roblox.com/v1/games/3260590327/servers/Public?sortOrder=Asc&limit=100";
+          if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
+          local Servers = HttpService:JSONDecode(game:HttpGet(Url));
+          if (Servers) then
+              nextCursor = Servers.nextPageCursor or nil;
+              Page = Page + 1;
+              for _,v in pairs(Servers.data) do
+                  v.playing = v.playing or math.huge;
+                  v.id = v.id or '';
+                  if v.id ~= game.JobId and v.playing <= minimum then
+                      minimum = v.playing;
+                      serverId = v.id;
+                  end
+              end
+          end
+      until (not nextCursor) or (Page >= pageLimit);
+      if (serverId) then
+          getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+          TPService:TeleportToPlaceInstance(3260590327, serverId);
+      end
+    end)
+    else
     w:Section("")
     w:Button("Go To Lobby", function()
       local pageLimit = math.huge
@@ -488,13 +714,14 @@ if game.PlaceId == 5591597781 then
         if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Results.Content.Visible == true then
           wait(5)
           getgenv().Webhook = true
+          if not getgenv().Multiplayer then
           if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
             if syn then
               WebSocketC = nil
               Co = 0
               repeat
               spawn(function()
-                WebSocketC = websocket.connect('ws://127.0.0.1:1337')
+                WebSocketC = syn.websocket.connect('ws://127.0.0.1:1337')
               end)
               Co = Co+1
               if Co >= 4 then
@@ -558,6 +785,39 @@ if game.PlaceId == 5591597781 then
               game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
             end
           end
+        elseif getgenv().Multiplayer and getgenv().PlayerType == "Host" then
+          local pageLimit = math.huge
+          local HttpService = game:GetService('HttpService');
+          local TPService = game:GetService("TeleportService");
+          local nextCursor, serverId;
+          local minimum = math.huge;
+          local Page = 0;
+          repeat
+              local Url = "https://games.roblox.com/v1/games/3260590327/servers/Public?sortOrder=Asc&limit=100";
+              if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
+              local Servers = HttpService:JSONDecode(game:HttpGet(Url));
+              if (Servers) then
+                  nextCursor = Servers.nextPageCursor or nil;
+                  Page = Page + 1;
+                  for _,v in pairs(Servers.data) do
+                      v.playing = v.playing or math.huge;
+                      v.id = v.id or '';
+                      if v.id ~= game.JobId and v.playing <= minimum then
+                          minimum = v.playing;
+                          serverId = v.id;
+                      end
+                  end
+              end
+          until (not nextCursor) or (Page >= pageLimit);
+          if (serverId) then
+              getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+              TPService:TeleportToPlaceInstance(3260590327, serverId);
+          end
+        end
+      end
+      end)
+    end
+  end)
   spawn(function()
     while wait(0.1) do
       if getgenv().Webhook == true then
@@ -671,9 +931,9 @@ elseif not string.find(getexecutorname(),"ScriptWare") then
 end
 local PlayerUserId = game.Players.LocalPlayer.UserId
 fileprefix = "TDS_AutoStrat/"
-if syn and not getgenv().IsMultiStrat and not getgenv().ExecDis then 
+if syn and not getgenv().IsMultiStrat and not getgenv().ExecDis and not getgenv().Multiplayer then 
 syn.queue_on_teleport("loadstring(readfile(\"TDS_AutoStrat/LastStrat_"..PlayerUserId..".txt\"))()")
-elseif not getgenv().IsMultiStrat and not getgenv().ExecDis then
+elseif not getgenv().IsMultiStrat and not getgenv().ExecDis and not getgenv().Multiplayer then
 queue_on_teleport("loadstring(readfile(\"TDS_AutoStrat/LastStrat_"..PlayerUserId..".txt\"))()")
 end
 getgenv().ExecutedAlr = true
@@ -735,6 +995,7 @@ printall("Status loading set")
 spawn(function()
 if not isgame() then
 task.wait(60)
+if not getgenv().Multiplayer then
 if getgenv().status == "Loading" or getgenv().status == "Loadout Equipped" or getgenv().status == "Equipping Loadout..." then
 	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 end
@@ -762,7 +1023,7 @@ printall("Got staterep")
 spawn(function()
 	if isgame() then
 	game.Players.ChildAdded:Connect(function()
-		if #game.Players:GetChildren() > 1 then
+		if #game.Players:GetChildren() > 1 and not getgenv().Multiplayer then
 			game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		end
 	end)
@@ -771,10 +1032,39 @@ end)
 printall("More players check online")
 spawn(function()
 	task.wait(10)
-	if isgame() and #game.Players:GetChildren() > 1 then
+	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer and not getgenv().UserKey then
 		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		return;
+	else if isgame() and getgenv().Multiplayer and #game.Players:GetChildren() > getgenv().PlayerNumber and getgenv().PlayerType == "Host" then
+		local pageLimit = math.huge
+		local HttpService = game:GetService('HttpService');
+		local TPService = game:GetService("TeleportService");
+		local nextCursor, serverId;
+		local minimum = math.huge;
+		local Page = 0;
+		repeat
+			local Url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100";
+			if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
+			local Servers = HttpService:JSONDecode(game:HttpGet(Url));
+			if (Servers) then
+				nextCursor = Servers.nextPageCursor or nil;
+				Page = Page + 1;
+				for _,v in pairs(Servers.data) do
+					v.playing = v.playing or math.huge;
+					v.id = v.id or '';
+					if v.id ~= game.JobId and v.playing <= minimum then
+						minimum = v.playing;
+						serverId = v.id;
+					end
+				end
+			end
+		until (not nextCursor) or (Page >= pageLimit);
+		if (serverId) then
+			getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+			TPService:TeleportToPlaceInstance(3260590327, serverId);
+		end
     end
+end
 end)
 printall("Multiplayer check online")
 --[[
@@ -1357,7 +1647,7 @@ function CheckTroop(troop)
 end
 function skip()
 	if isgame() then
-		RSRF:InvokeServer("Waves","Skip")
+		RSRF:InvokeServer("Voting","Skip")
 		getgenv().output("Skipped Wave")
 	end
 end
@@ -1398,142 +1688,28 @@ end
 printall("Golden perks added")
 appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/stratfun2\", true))()\n")
 function scrip:Map(map, antimulti, type)
-	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
-	getgenv().mapc = map
-	if type == "Hardcore" and game:GetService("Players").LocalPlayer.Level.Value < 50 then
-		game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYou are not level 50!\nYou can't use Hardcore Mode strats!\n\n---------- AUTO STRAT ----------\n")
-		task.wait(0.5)
-		while true do end
-	end
-	local maxplayers = 1
-	if not isgame() then
-		maxplayers = getgenv().PlayerNumber
-		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
-	end
-	if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map then
-		game:GetService("TeleportService"):Teleport(3260590327)
-	end
-	getgenv().timer = 0
-	spawn(function()
-	if not isgame() and not getgenv().IsMultiStrat then
-		spawn(function()
-			getgenv().timer = 0
-			while task.wait(1) do
-				getgenv().timer = getgenv().timer + 1
-			end
-		end)
-		getgenv().repeating = true
-		while task.wait(1) do
-			if getgenv().repeating then
-				getgenv().repeating = false
-				local jc = 0
-				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
-					local mp = Elevators.State.Map.Title
-					local rq = require(Elevators.Settings).Type
-					local plrs = Elevators.State.Players
-					if type == nil then
-						type = "Survival"
-					end
-					if mp.Value == map and rq == type then
-						if (plrs.Value <= 0) then
-							jc = jc + 1
-							prints("Join attempt...")
-							getgenv().status = "Joining..."
-							RSRF:InvokeServer("Elevators","Enter",Elevators)
-							prints("Joined elavator...")
-							getgenv().status = "Joined"
-							while task.wait() do
-								getgenv().status = "Joined ("..Elevators.State.Timer.Value.."s)"
-								if Elevators.State.Timer.Value == 0 then
-									local s = true
-                                    for c=1,100 do
-									if antimulti and (plrs.Value > maxplayers) then
-										prints("Someone joined, leaving elevator...")
-										getgenv().status = "Someone joined..."
-										RSRF:InvokeServer("Elevators","Leave")
-										getgenv().repeating = true
-										s = false
-										break
-									end
-									task.wait(0.01)
-									end
-                                    if Elevators.State.Timer.Value == 0 and s then
-										getgenv().status = "Teleporting..."
-										task.wait(60)
-										getgenv().status = "Teleport failed!"
-                                        RSRF:InvokeServer("Elevators","Leave")
-									else
-										getgenv().status = "Teleport failed! (Timer)"
-                                        RSRF:InvokeServer("Elevators","Leave")
-										getgenv().repeating = true
-                                    end
-                                end
-								if mp.Value == map then
-									if antimulti then
-										if (plrs.Value > maxplayers) then
-											RSRF:InvokeServer("Elevators","Leave")
-											prints("Someone joined, leaving elevator...")
-											getgenv().status = "Someone joined..."
-											getgenv().repeating = true
-											break
-										elseif (plrs.Value == 0) then
-											task.wait(1)
-											if (plrs.Value == 0) then
-												task.wait(1)
-												if (plrs.Value == 0) then
-													task.wait(1)
-													if (plrs.Value == 0) then
-														task.wait(1)
-														if (plrs.Value == 0) then
-														prints("Error")
-														getgenv().status = "Error occured, check dev con"
-														prints("Error occured, please open ticket on Money Maker Development discord server!")
-														RSRF:InvokeServer("Elevators","Leave")
-														getgenv().repeating = true
-														break
-														end
-													end
-												end
-											end
-										end
-									end
-								else
-									RSRF:InvokeServer("Elevators","Leave")
-									prints("Map changed while joining, leaving...")
-									getgenv().status = "Map changed..."
-									getgenv().repeating = true
-									break
-								end
-							end
-						end
-					end
-				end
-				if jc == 0 then
-					getgenv().repeating = true
-					prints("Waiting for map...")
-					getgenv().status = "Waiting for map..."
-					if getgenv().timer >= 15 then
-					getgenv().status = "Force changing maps..."
-					getgenv().timer = 0
-					for i, v in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
-						local rq = require(v.Settings).Type
-						local plrs = v.State.Players
-						if rq == type and plrs.Value <= 0 then
-							RSRF:InvokeServer("Elevators","Enter",v)
-							task.wait(1)
-							RSRF:InvokeServer("Elevators","Leave")
-						end
-					end
-					task.wait(0.6)
-					RSRF:InvokeServer("Elevators","Leave")
-					task.wait(1)
-				end
-			end
-		end
-	end
-end
-end)	
-end
+    appendfile(fileprefix .. "LastStrat_" .. PlayerUserId .. ".txt", "TDS:Map('" .. map .. "', " .. tostring(antimulti) .. ", '" .. type .. "')\n")
+    getgenv().mapc = map
+
+    while task.wait(1) do
+        local args_create = {
+            [1] = "Multiplayer",
+            [2] = "single_create"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args_create))
+
+        local args_start = {
+            [1] = "Multiplayer",
+            [2] = "single_start",
+            [3] = {
+                ["count"] = 1,
+                ["mode"] = "survival"
+            }
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args_start))
+    end
 end
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
@@ -1952,7 +2128,7 @@ end
 spawn(function()
 if isgame() then
 task.wait(60)
-if game.ReplicatedStorage.State.Timer.Time.Value > 50000 then
+if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multiplayer then
 	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 end
 end
