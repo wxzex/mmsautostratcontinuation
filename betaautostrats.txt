@@ -1708,7 +1708,6 @@ function scrip:Map(map, antimulti, type)
 
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args_start))
     end
-end
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
 	makefolder("TDS_AutoStrat")
