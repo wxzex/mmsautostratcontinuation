@@ -422,13 +422,13 @@ spawn(function()
   end
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
-	if game.PlaceId == "5591597781" then
-		appendfile(fileprefix .. "LastStrat_" .. PlayerUserId .. ".txt", "TDS:Map('" .. map .. "', " .. tostring(antimulti) .. ", '" .. type .. "')\n")
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("LobbyVoting", "Override", map)
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Vote", map, Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328))
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Ready")
-		task.wait(6)
-	end
+	appendfile(fileprefix .. "LastStrat_" .. PlayerUserId .. ".txt", "TDS:Map('" .. map .. "', " .. tostring(antimulti) .. ", '" .. type .. "')\n")
+	getgenv().mapc = map
+	game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("LobbyVoting", "Override", getgenv().mapc)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Vote", map, Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328))
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Ready")
+		
+	task.wait(6)
     local w = lib:CreateWindow("Auto Strats")
     --w:Section("Counter Disabled")
     w:Section("Troop1")
