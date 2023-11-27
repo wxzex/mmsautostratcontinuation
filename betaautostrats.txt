@@ -2155,15 +2155,6 @@ if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multi
 end
 end
 end)
---[[spawn(function()
-	if isgame() then
-	repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == 49 and RS.State.Timer.Time.Value == 7 or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == 7
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, true)
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Write({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog},{["Icon"] = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=150&h=150", ["Author"] = game.Players.LocalPlayer.Name, ["Text"] = "I need to suck my cock Commander. I masturbate 1 time for 1 second and then I go to bed with my sister. Commander PLEASE HELP ME!!! If you got this msg dm Money Maker"})
-	task.wait(1)
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, false)
-	end
-end)]]
 spawn(function()
 	if not game.Players.LocalPlayer:IsInGroup(4914494) then
 		setclipboard("https://www.roblox.com/groups/4914494/Paradoxum-Games")
