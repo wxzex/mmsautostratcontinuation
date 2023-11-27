@@ -1690,8 +1690,6 @@ appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstrin
 function scrip:Map(map, antimulti, type)
     appendfile(fileprefix .. "LastStrat_" .. PlayerUserId .. ".txt", "TDS:Map('" .. map .. "', " .. tostring(antimulti) .. ", '" .. type .. "')\n")
     getgenv().mapc = map
-
-    while task.wait(1) do
         local args_create = {
             [1] = "Multiplayer",
             [2] = "single_create"
