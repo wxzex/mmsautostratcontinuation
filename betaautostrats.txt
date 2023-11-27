@@ -422,6 +422,13 @@ spawn(function()
   end
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
+	if game.PlaceId == "5591597781" then
+		appendfile(fileprefix .. "LastStrat_" .. PlayerUserId .. ".txt", "TDS:Map('" .. map .. "', " .. tostring(antimulti) .. ", '" .. type .. "')\n")
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("LobbyVoting", "Override", map)
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Vote", map, Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328))
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer("LobbyVoting", "Ready")
+		task.wait(6)
+	end
     local w = lib:CreateWindow("Auto Strats")
     --w:Section("Counter Disabled")
     w:Section("Troop1")
@@ -1707,32 +1714,7 @@ function scrip:Map(map, antimulti, type)
         }
 
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args_start))
-    end
-	if game.PlaceId == "5591597781" then
-		local args1 = {
-			[1] = "LobbyVoting",
-			[2] = "Override",
-			[3] = map
-		}
-	
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args1))
-		wait(0.1)
-	
-		local args2 = {
-			[1] = "LobbyVoting",
-			[2] = "Vote",
-			[3] = map,
-			[4] = Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328)
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args2))
-	
-		local args3 = {
-			[1] = "LobbyVoting",
-			[2] = "Ready"
-		}
-	
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args3))
-	end	 
+    end	 
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
 	makefolder("TDS_AutoStrat")
@@ -2155,6 +2137,15 @@ if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multi
 end
 end
 end)
+--[[spawn(function()
+	if isgame() then
+	repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == 49 and RS.State.Timer.Time.Value == 7 or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == 7
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, true)
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Write({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog},{["Icon"] = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=150&h=150", ["Author"] = game.Players.LocalPlayer.Name, ["Text"] = "I need to suck my cock Commander. I masturbate 1 time for 1 second and then I go to bed with my sister. Commander PLEASE HELP ME!!! If you got this msg dm Money Maker"})
+	task.wait(1)
+	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, false)
+	end
+end)]]
 spawn(function()
 	if not game.Players.LocalPlayer:IsInGroup(4914494) then
 		setclipboard("https://www.roblox.com/groups/4914494/Paradoxum-Games")
