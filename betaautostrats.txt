@@ -1836,6 +1836,9 @@ function scrip:Map(map, antimulti, type)
                                                                     getgenv().repeating = true
                                                                     break
                                                                 end
+																if getgenv().Matchmaking then
+																	print('mm')
+																end
                                                             end
                                                         end
                                                     end
@@ -1888,10 +1891,6 @@ function scrip:Map(map, antimulti, type)
                                 task.wait(1)
                             end
                         end
-                    end
-
-                    if getgenv().Matchmaking then
-                        print('mm')
                     end
                 end
             end
