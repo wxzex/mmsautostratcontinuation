@@ -1729,16 +1729,15 @@ function scrip:Map(map, antimulti, type)
                 end)
 
                 getgenv().repeating = true
-
                 while task.wait(1) do
-
-					if getgenv().Matchmaking then
-						print('mm')
-					end
 
                     if getgenv().repeating then
                         getgenv().repeating = false
                         local jc = 0
+
+						if getgenv().Matchmaking then
+							print('mm')
+						end
 
                         for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
                             local mp = Elevators.State.Map.Title
