@@ -1852,6 +1852,7 @@ function scrip:Map(map, antimulti, type)
 			print('mm')
 	end
 end
+end
 end)	
 end
 end
