@@ -436,7 +436,7 @@ spawn(function()
 			[1] = "LobbyVoting",
 			[2] = "Vote",
 			[3] = getgenv().mapc,
-			[4] = Vector3.new(14.699155807495117, 58.931583404541016, 56.18524932861328)
+			[4] = Vector3.new(14, 58, 56)
 		}
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args2))
 	
@@ -446,8 +446,8 @@ spawn(function()
 		}
 	
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args3))
-		wait(6)
 	end	
+	repeat task.wait() until game:GetService("ReplicatedStorage").State.Map.Value == getgenv().mapc
     --w:Section("Counter Disabled")
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
