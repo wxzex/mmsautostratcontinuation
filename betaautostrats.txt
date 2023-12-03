@@ -1741,7 +1741,7 @@ function scrip:Map(map, antimulti, type)
             until getgenv().FindMap
         end
 
-        if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and not getgenv().Multiplayer then
+        if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and not getgenv().Multiplayer and not getgenv().Matchmaking then
             game:GetService("TeleportService"):Teleport(3260590327)
         end
 
