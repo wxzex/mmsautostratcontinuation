@@ -423,7 +423,7 @@ spawn(function()
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
     local w = lib:CreateWindow("Auto Strats")
-    if getgenv().Matchmaking then
+	if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II") then
 		local args1 = {
 			[1] = "LobbyVoting",
 			[2] = "Override",
@@ -431,7 +431,6 @@ spawn(function()
 		}
 	
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args1))
-		wait(0.1)
 	
 		local args2 = {
 			[1] = "LobbyVoting",
@@ -447,6 +446,7 @@ spawn(function()
 		}
 	
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args3))
+		wait(6)
 	end	
     --w:Section("Counter Disabled")
     w:Section("Troop1")
@@ -987,7 +987,7 @@ end
 if not isfile(fileprefix.."UseCount.txt") then
 	writefile(fileprefix.."UseCount.txt","1")
 end
-printall("Createed more file")
+printall("Created more file")
 loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
 function isgame()
 	if game.PlaceId == 5591597781 then
@@ -1727,6 +1727,9 @@ function scrip:Map(map, antimulti, type)
             while true do
             end
         end
+		if type == "Hardcore" and getgenv().Matchmaking = true then
+			game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 6:\nYou can't use matchmaking with hardcore!(TDS didn't implement that yet)\n\n---------- AUTO STRAT ----------\n")
+        end
 
         local maxplayers = 1
 
@@ -1773,12 +1776,20 @@ function scrip:Map(map, antimulti, type)
 								[2] = "single_start",
 								[3] = {
 									["count"] = 1,
-									["mode"] = "survival"
+									["mode"] = "survival" -- default value
 								}
 							}
-						
-							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
-						end
+							
+							
+							if getgenv().mapc == "Pizza Party" then
+								args[3]["mode"] = "halloween"
+							elseif getgenv().mapc == "Badlands II" then
+								args[3]["mode"] = "badlands"
+							elseif getgenv().mapc == "Polluted Wastelands II" then
+								args[3]["mode"] = "polluted"
+							end
+							
+							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))							
 
 
 						if not getgenv().Matchmaking then
