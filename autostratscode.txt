@@ -423,6 +423,31 @@ spawn(function()
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
     local w = lib:CreateWindow("Auto Strats")
+	repeat task.wait() until getgenv().mapc ~= nil
+	if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II") then	
+		local args1 = {
+			[1] = "LobbyVoting",
+			[2] = "Override",
+			[3] = getgenv().mapc
+		}
+	
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args1))
+	
+		local args2 = {
+			[1] = "LobbyVoting",
+			[2] = "Vote",
+			[3] = getgenv().mapc,
+			[4] = Vector3.new(14, 58, 56)
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args2))
+	
+		local args3 = {
+			[1] = "LobbyVoting",
+			[2] = "Ready"
+		}
+	
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args3))
+	end	
     --w:Section("Counter Disabled")
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
@@ -962,7 +987,7 @@ end
 if not isfile(fileprefix.."UseCount.txt") then
 	writefile(fileprefix.."UseCount.txt","1")
 end
-printall("Createed more file")
+printall("Created more file")
 loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
 function isgame()
 	if game.PlaceId == 5591597781 then
@@ -1688,170 +1713,246 @@ end
 printall("Golden perks added")
 appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/stratfun2\", true))()\n")
 function scrip:Map(map, antimulti, type)
-	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
-	getgenv().mapc = map
-	if getgenv().Multiplayer and getgenv().PlayerType == "Player" then
-		getgenv().status = "Host control mode..."
-	end
-	if not getgenv().Multiplayer or getgenv().Multiplayer and getgenv().PlayerType == "Host" then
-	if type == "Hardcore" and game:GetService("Players").LocalPlayer.Level.Value < 50 then
-		game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYou are not level 50!\nYou can't use Hardcore Mode strats!\n\n---------- AUTO STRAT ----------\n")
-		task.wait(0.5)
-		while true do end
-	end
-	local maxplayers = 1
-	if not isgame() and getgenv().Multiplayer and getgenv().PlayerType == "Host" then
-		maxplayers = getgenv().PlayerNumber
-		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
-	end
-	if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and not getgenv().Multiplayer then
-		game:GetService("TeleportService"):Teleport(3260590327)
-	end
-	getgenv().timer = 0
-	spawn(function()
-	if not isgame() and not getgenv().IsMultiStrat then
-		spawn(function()
-			getgenv().timer = 0
-			while task.wait(1) do
-				getgenv().timer = getgenv().timer + 1
-			end
-		end)
-		getgenv().repeating = true
-		while task.wait(1) do
-			if getgenv().repeating then
-				getgenv().repeating = false
-				local jc = 0
-				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
-					local mp = Elevators.State.Map.Title
-					local rq = require(Elevators.Settings).Type
-					local plrs = Elevators.State.Players
-					if type == nil then
-						type = "Survival"
-					end
-					if mp.Value == map and rq == type then
-						if (plrs.Value <= 0) then
-							jc = jc + 1
-							prints("Join attempt...")
-							getgenv().status = "Joining..."
-							RSRF:InvokeServer("Elevators","Enter",Elevators)
-							prints("Joined elavator...")
-							getgenv().status = "Joined"
-							if getgenv().Multiplayer and getgenv().Connection then
-								getgenv().Connection:Send('{"client":"Host","action":"Elevator","number":'..tostring(_)..',"userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+    appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt", "TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
+    getgenv().mapc = map
+
+    if getgenv().Multiplayer and getgenv().PlayerType == "Player" then
+        getgenv().status = "Host control mode..."
+    end
+
+    if not getgenv().Multiplayer or (getgenv().Multiplayer and getgenv().PlayerType == "Host") then
+        if type == "Hardcore" and game:GetService("Players").LocalPlayer.Level.Value < 50 then
+            game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYou are not level 50!\nYou can't use Hardcore Mode strats!\n\n---------- AUTO STRAT ----------\n")
+            task.wait(0.5)
+            while true do
+            end
+        end
+		if type == "Hardcore" and getgenv().Matchmaking then
+			game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 6:\nYou can't use matchmaking with hardcore!(TDS didn't implement that yet)\n\n---------- AUTO STRAT ----------\n")
+        end
+
+        local maxplayers = 1
+
+        if not isgame() and getgenv().Multiplayer and getgenv().PlayerType == "Host" then
+            maxplayers = getgenv().PlayerNumber
+            repeat
+                getgenv().status = "Waiting for plrs..."
+                task.wait()
+            until getgenv().FindMap
+        end
+
+        if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and not getgenv().Multiplayer and not getgenv().Matchmaking then
+            game:GetService("TeleportService"):Teleport(3260590327)
+        end
+
+        getgenv().timer = 0
+
+        spawn(function()
+            if not isgame() and not getgenv().IsMultiStrat then
+                spawn(function()
+                    getgenv().timer = 0
+                    while task.wait(1) do
+                        getgenv().timer = getgenv().timer + 1
+                    end
+                end)
+
+                getgenv().repeating = true
+                while task.wait(1) do
+
+                    if getgenv().repeating then
+                        getgenv().repeating = false
+                        local jc = 0
+
+						if getgenv().Matchmaking then
+							local args = {
+								[1] = "Multiplayer",
+								[2] = "single_create"
+							}
+						
+							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
+						
+							local args = {
+								[1] = "Multiplayer",
+								[2] = "single_start",
+								[3] = {
+									["count"] = 1,
+									["mode"] = "survival" -- default value
+								}
+							}
+							
+							
+							if getgenv().mapc == "Pizza Party" then
+								args[3]["mode"] = "halloween"
+							elseif getgenv().mapc == "Badlands II" then
+								args[3]["mode"] = "badlands"
+							elseif getgenv().mapc == "Polluted Wastelands II" then
+								args[3]["mode"] = "polluted"
 							end
-							while task.wait() do
-								getgenv().status = "Joined ("..Elevators.State.Timer.Value.."s)"
-								if Elevators.State.Timer.Value == 0 then
-									local s = true
-                                    for c=1,100 do
-									if antimulti and (plrs.Value > maxplayers) then
-										if getgenv().Multiplayer and getgenv().Connection then
-											getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-										end
-										prints("Someone joined, leaving elevator...")
-										getgenv().status = "Someone joined..."
-										RSRF:InvokeServer("Elevators","Leave")
-										getgenv().repeating = true
-										s = false
-										break
-									end
-									task.wait(0.01)
-									end
-                                    if Elevators.State.Timer.Value == 0 and s then
-										getgenv().status = "Teleporting..."
-										task.wait(60)
-										getgenv().status = "Teleport failed!"
-                                        RSRF:InvokeServer("Elevators","Leave")
-										if getgenv().Multiplayer and getgenv().Connection then
-											getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-										end
-									else
-										if getgenv().Multiplayer and getgenv().Connection then
-											getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-										end
-										getgenv().status = "Teleport failed! (Timer)"
-                                        RSRF:InvokeServer("Elevators","Leave")
-										getgenv().repeating = true
+							
+							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))							
+
+
+						if not getgenv().Matchmaking then
+                        for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+                            local mp = Elevators.State.Map.Title
+                            local rq = require(Elevators.Settings).Type
+                            local plrs = Elevators.State.Players
+
+                            if type == nil then
+                                type = "Survival"
+                            end
+
+                            if mp.Value == map and rq == type then
+                                if plrs.Value <= 0 then
+                                    jc = jc + 1
+                                    prints("Join attempt...")
+                                    getgenv().status = "Joining..."
+                                    RSRF:InvokeServer("Elevators", "Enter", Elevators)
+                                    prints("Joined elavator...")
+                                    getgenv().status = "Joined"
+
+                                    if getgenv().Multiplayer and getgenv().Connection then
+                                        getgenv().Connection:Send('{"client":"Host","action":"Elevator","number":'..tostring(_)..',"userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                    end
+
+                                    while task.wait() do
+                                        getgenv().status = "Joined ("..Elevators.State.Timer.Value.."s)"
+
+                                        if Elevators.State.Timer.Value == 0 then
+                                            local s = true
+
+                                            for c = 1, 100 do
+                                                if antimulti and (plrs.Value > maxplayers) then
+                                                    if getgenv().Multiplayer and getgenv().Connection then
+                                                        getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                                    end
+
+                                                    prints("Someone joined, leaving elevator...")
+                                                    getgenv().status = "Someone joined..."
+                                                    RSRF:InvokeServer("Elevators", "Leave")
+                                                    getgenv().repeating = true
+                                                    s = false
+                                                    break
+                                                end
+
+                                                task.wait(0.01)
+                                            end
+
+                                            if Elevators.State.Timer.Value == 0 and s then
+                                                getgenv().status = "Teleporting..."
+                                                task.wait(60)
+                                                getgenv().status = "Teleport failed!"
+                                                RSRF:InvokeServer("Elevators", "Leave")
+
+                                                if getgenv().Multiplayer and getgenv().Connection then
+                                                    getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                                end
+                                            else
+                                                if getgenv().Multiplayer and getgenv().Connection then
+                                                    getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                                end
+
+                                                getgenv().status = "Teleport failed! (Timer)"
+                                                RSRF:InvokeServer("Elevators", "Leave")
+                                                getgenv().repeating = true
+                                            end
+                                        end
+
+                                        if mp.Value == map then
+                                            if antimulti then
+                                                if (plrs.Value > maxplayers) then
+                                                    if getgenv().Multiplayer and getgenv().Connection then
+                                                        getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                                    end
+
+                                                    RSRF:InvokeServer("Elevators", "Leave")
+                                                    prints("Someone joined, leaving elevator...")
+                                                    getgenv().status = "Someone joined..."
+                                                    getgenv().repeating = true
+                                                    break
+                                                elseif (plrs.Value == 0) then
+                                                    task.wait(1)
+
+                                                    if (plrs.Value == 0) then
+                                                        task.wait(1)
+
+                                                        if (plrs.Value == 0) then
+                                                            task.wait(1)
+
+                                                            if (plrs.Value == 0) then
+                                                                task.wait(1)
+
+                                                                if (plrs.Value == 0) then
+                                                                    if getgenv().Multiplayer and getgenv().Connection then
+                                                                        getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                                                    end
+
+                                                                    prints("Error")
+                                                                    getgenv().status = "Error occured, check dev con"
+                                                                    prints("Error occured, please open ticket on Money Maker Development discord server!")
+                                                                    RSRF:InvokeServer("Elevators", "Leave")
+                                                                    getgenv().repeating = true
+                                                                    break
+                                                                end
+                                                            end
+                                                        end
+                                                    end
+                                                end
+                                            end
+                                        else
+                                            RSRF:InvokeServer("Elevators", "Leave")
+                                            prints("Map changed while joining, leaving...")
+
+                                            if getgenv().Multiplayer and getgenv().Connection then
+                                                getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                            end
+
+                                            getgenv().status = "Map changed..."
+                                            getgenv().repeating = true
+                                            break
+                                        end
                                     end
                                 end
-								if mp.Value == map then
-									if antimulti then
-										if (plrs.Value > maxplayers) then
-											if getgenv().Multiplayer and getgenv().Connection then
-												getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-											end
-											RSRF:InvokeServer("Elevators","Leave")
-											prints("Someone joined, leaving elevator...")
-											getgenv().status = "Someone joined..."
-											getgenv().repeating = true
-											break
-										elseif (plrs.Value == 0) then
-											task.wait(1)
-											if (plrs.Value == 0) then
-												task.wait(1)
-												if (plrs.Value == 0) then
-													task.wait(1)
-													if (plrs.Value == 0) then
-														task.wait(1)
-														if (plrs.Value == 0) then
-														if getgenv().Multiplayer and getgenv().Connection then
-															getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-														end
-														prints("Error")
-														getgenv().status = "Error occured, check dev con"
-														prints("Error occured, please open ticket on Money Maker Development discord server!")
-														RSRF:InvokeServer("Elevators","Leave")
-														getgenv().repeating = true
-														break
-														end
-													end
-												end
-											end
-										end
-									end
-								else
-									RSRF:InvokeServer("Elevators","Leave")
-									prints("Map changed while joining, leaving...")
-									if getgenv().Multiplayer and getgenv().Connection then
-										getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-									end
-									getgenv().status = "Map changed..."
-									getgenv().repeating = true
-									break
-								end
-							end
-						end
-					end
-				end
-				if jc == 0 then
-					getgenv().repeating = true
-					prints("Waiting for map...")
-					getgenv().status = "Waiting for map..."
-					if getgenv().timer >= 15 then
-					getgenv().status = "Force changing maps..."
-					getgenv().timer = 0
-					for i, v in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
-						local rq = require(v.Settings).Type
-						local plrs = v.State.Players
-						if rq == type and plrs.Value <= 0 then
-							RSRF:InvokeServer("Elevators","Enter",v)
-							task.wait(1)
-							RSRF:InvokeServer("Elevators","Leave")
-						end
-					end
-					task.wait(0.6)
-					RSRF:InvokeServer("Elevators","Leave")
-					if getgenv().Multiplayer and getgenv().Connection then
-						getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-					end
-					task.wait(1)
-				end
-			end
+                            end
+                        end
+
+                        if jc == 0 then
+                            getgenv().repeating = true
+                            prints("Waiting for map...")
+                            getgenv().status = "Waiting for map..."
+
+                            if getgenv().timer >= 15 then
+                                getgenv().status = "Force changing maps..."
+                                getgenv().timer = 0
+
+                                for i, v in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+                                    local rq = require(v.Settings).Type
+                                    local plrs = v.State.Players
+
+                                    if rq == type and plrs.Value <= 0 then
+                                        RSRF:InvokeServer("Elevators", "Enter", v)
+                                        task.wait(1)
+                                        RSRF:InvokeServer("Elevators", "Leave")
+                                    end
+                                end
+
+                                task.wait(0.6)
+                                RSRF:InvokeServer("Elevators", "Leave")
+
+                                if getgenv().Multiplayer and getgenv().Connection then
+                                    getgenv().Connection:Send('{"client":"Host","action":"LElevator","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+                                end
+
+                                task.wait(1)
+                            end
+                        end
+                    end
+                end
+            end
 		end
 	end
-end
-end)	
-end
+        end)
+    end
 end
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
