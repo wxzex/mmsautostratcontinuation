@@ -1727,7 +1727,7 @@ function scrip:Map(map, antimulti, type)
             while true do
             end
         end
-		if type == "Hardcore" and getgenv().Matchmaking = true then
+		if type == "Hardcore" and getgenv().Matchmaking then
 			game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 6:\nYou can't use matchmaking with hardcore!(TDS didn't implement that yet)\n\n---------- AUTO STRAT ----------\n")
         end
 
@@ -1950,6 +1950,7 @@ function scrip:Map(map, antimulti, type)
                 end
             end
 		end
+	end
         end)
     end
 end
