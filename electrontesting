@@ -969,7 +969,6 @@ if not isfile(fileprefix.."UseCount.txt") then
 	writefile(fileprefix.."UseCount.txt","1")
 end
 printall("Created more file")
-loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
 function isgame()
 	if game.PlaceId == 5591597781 then
 		return true
