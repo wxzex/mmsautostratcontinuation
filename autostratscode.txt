@@ -51,26 +51,15 @@ if getgenv().Multiplayer then
         getgenv().player4J = false
         request = http_request or request or HttpPost or syn.request
         local conn = nil
-        local weblink = "websocket for player communication url"
+        local weblink = "localhost:8080"
         if getgenv().LocalMultiplayerHost then
-          weblink = "websocket for local player communication url"
+          weblink = "localhost:8080"
         end
-        pcall(function()
-          if syn then
-            conn = syn.websocket.connect()
-          else
-            conn = WebSocket.connect("websocket for player communication url")
-          end
-        end)
+        conn = WebSocket.connect("localhost:8080")
         if not conn then
-        request({Url = "websocket for player communication url"})
+        request({Url = "localhost:8080"})
         wait(2)
-        if syn then
-          conn = syn.websocket.connect("websocket for player communication url")
-        else
-          conn = WebSocket.connect("websocket for player communication url")
-        end
-        end
+          conn = WebSocket.connect("localhost:8080")
         getgenv().Connection = conn
         if getgenv().PlayerType == "Player" then
         conn.OnMessage:Connect(function(v)
