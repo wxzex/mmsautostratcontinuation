@@ -173,18 +173,6 @@ if getgenv().Multiplayer then
             getgenv().FindMap = true
           end
         end)
-      else
-        game.Players.LocalPlayer:Kick("Authentication Failed (3)")
-        return;
-      end
-    else
-      game.Players.LocalPlayer:Kick("Authentication Failed (2)")
-      return;
-    end
-  else
-    game.Players.LocalPlayer:Kick("Authentication Failed (1)")
-	return;
-  end
 end
 if game.PlaceId == 3260590327 then
   getgenv().status = "Loading"
