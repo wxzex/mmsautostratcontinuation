@@ -43,52 +43,7 @@ end
 end)
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/libcode", true))()
 if getgenv().Multiplayer then
-  if getgenv().UserKey then
-    local check = nil
-    local request = syn.request or request
-    repeat
-      check = request({Url="whitelist main check url"}).Body
-      task.wait(1)
-    until not check:find("Unable To Wake Up")
-	check = request({Url="whitelist main check url", Headers = {["SecretKeyREAL"]=getgenv().UserKey}}).Body
-	print(check)
-    if check ~= nil then
-      if check == "......." then game.Players.LocalPlayer:Kick("Something Went Wrong...") return; end
-      if check == "........" then game.Players.LocalPlayer:Kick("Key Does Not Match") return; end
-      if check == "........." then game.Players.LocalPlayer:Kick("Your Key Expired, please generate a new one!") return; end
-	  if check == ".........." then game.Players.LocalPlayer:Kick("You don't own premium!") return; end
-      local dynamickey = nil
-      repeat
-        dynamickey = request({Url="whitelist dynamic key fetcher url"})
-        task.wait(1)
-      until not dynamickey.Body:find("Unable To Wake Up")
-      local secretkey = dynamickey.Headers["Yomama2137"]
-      dynamickey = dynamickey.Body
-      local decryptedmessage = nil
-      if syn then
-		local success, errorMessage = pcall(function()
-        secretkey = syn.crypt.custom.decrypt("aes-gcm", secretkey, "decryption key", "decryption key 2")
-        decryptedmessage = syn.crypt.custom.decrypt("aes-gcm", check, "decryption key", secretkey)
-		end)
-		if not success then
-			game.Players.LocalPlayer:Kick("Try to put the valid key next time sweetie, alr?")
-			return;
-		end
-      else
-		local success, errorMessage = pcall(function()
-        secretkey = crypt.custom_decrypt(secretkey, "decryption key", "decryption key 2", "GCM")
-        decryptedmessage = crypt.custom_decrypt(check, "decryption key", secretkey, "GCM")
-		end)
-		if not success then
-			game.Players.LocalPlayer:Kick("Try to put the valid key next time sweetie, alr?")
-			return;
-		end
-      end
-      decryptedmessage = game:GetService("HttpService"):JSONDecode(decryptedmessage)
-      decryptedmessage["DySFfsNaKeY2178"] = math.floor(((((decryptedmessage["DySFfsNaKeY2178"] + 5634)/9654645)-435345)*6365)/46345345)
-      if decryptedmessage["SEX123"] ~= "yes plz" then game.Players.LocalPlayer:Kick("Authentication Failed") return; end
-      if decryptedmessage["DySFfsNaKeY2178"] == dynamickey or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+1 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-1 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+2 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-2 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+3 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-3 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+4 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-4 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey+5 or decryptedmessage["DySFfsNaKeY2178"] == dynamickey-5 then
-        if not getgenv().Player2Id then getgenv().Player2Id=0 end
+ if not getgenv().Player2Id then getgenv().Player2Id=0 end
         if not getgenv().Player3Id then getgenv().Player3Id=0 end
         if not getgenv().Player4Id then getgenv().Player4Id=0 end
         getgenv().player2J = false
@@ -1038,7 +993,7 @@ end)
 printall("More players check online")
 spawn(function()
 	task.wait(10)
-	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer and not getgenv().UserKey then
+	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer then
 		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		return;
 	else if isgame() and getgenv().Multiplayer and #game.Players:GetChildren() > getgenv().PlayerNumber and getgenv().PlayerType == "Host" then
