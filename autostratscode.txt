@@ -364,9 +364,9 @@ spawn(function()
     end
   end
   if game.PlaceId == 5591597781 then
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
-    local w = lib:CreateWindow("Auto Strats (wait for 2nd wave 0 part)")
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0" then
+    local w = lib:CreateWindow("Auto Strats")
     --w:Section("Counter Disabled")
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
