@@ -51,24 +51,21 @@ if getgenv().Multiplayer then
         getgenv().player4J = false
         request = http_request or request or HttpPost or syn.request
         local conn = nil
-        local weblink = "websocket for player communication url"
-        if getgenv().LocalMultiplayerHost then
-          weblink = "websocket for local player communication url"
-        end
+        local weblink = getgenv().host
         pcall(function()
           if syn then
             conn = syn.websocket.connect()
           else
-            conn = WebSocket.connect("websocket for player communication url")
+            conn = WebSocket.connect(getgenv().host)
           end
         end)
         if not conn then
-        request({Url = "websocket for player communication url"})
+        request({Url = getgenv().host})
         wait(2)
         if syn then
-          conn = syn.websocket.connect("websocket for player communication url")
+          conn = syn.websocket.connect(getgenv().host)
         else
-          conn = WebSocket.connect("websocket for player communication url")
+          conn = WebSocket.connect(getgenv().host)
         end
         end
         getgenv().Connection = conn
@@ -2219,15 +2216,6 @@ if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multi
 end
 end
 end)
---[[spawn(function()
-	if isgame() then
-	repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == 49 and RS.State.Timer.Time.Value == 7 or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == 7
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, true)
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Write({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog},{["Icon"] = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=150&h=150", ["Author"] = game.Players.LocalPlayer.Name, ["Text"] = "I need to suck my cock Commander. I masturbate 1 time for 1 second and then I go to bed with my sister. Commander PLEASE HELP ME!!! If you got this msg dm Money Maker"})
-	task.wait(1)
-	require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Dialog).Appear({["ui"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Dialog, ["Primary"] = {["Backdrop"] = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Backdrop}}, false)
-	end
-end)]]
 spawn(function()
 	if not game.Players.LocalPlayer:IsInGroup(4914494) then
 		setclipboard("https://www.roblox.com/groups/4914494/Paradoxum-Games")
@@ -2235,24 +2223,6 @@ spawn(function()
 		task.wait(0.5)
 		while true do end
 	end
-	-- while task.wait(1) do
-	-- 	for i,v in pairs(game.CoreGui:GetDescendants()) do
-	-- 		if v:IsA("TextButton") and string.find(string.lower(v.Text), "afk") or v:IsA("TextLabel") and string.find(string.lower(v.Text), "afk") and v.Parent.Parent.Parent.Parent.Name ~= "ChatChannelParentFrame" and v.Name ~= "PlayerName" and v.Parent.Parent.Parent.Name ~= "BubbleChatList" then
-	-- 			game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 3:\nFound External Script that can be cause to bugs while Auto Farming : \n\nAnti Afk \n(Anti Afk is built in script!)\n\n---------- AUTO STRAT ----------\n")
-	-- 			getgenv().ReportError("3","Found External Script in "..v:GetFullName().." , Text was : "..v.Text)
-	-- 			task.wait(0.5)
-	-- 			while true do end
-	-- 		end
-	-- 	end
-	-- 	for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
-	-- 		if v:IsA("TextButton") and string.find(string.lower(v.Text), "afk") or v:IsA("TextLabel") and string.find(string.lower(v.Text), "afk") and v.Parent.Parent.Parent.Parent.Name ~= "ChatChannelParentFrame" and v.Parent.Parent.Parent.Parent.Parent.Name ~= "ChatChannelParentFrame" and v.Name ~= "PlayerName" and v.Parent.Parent.Parent.Name ~= "BubbleChatList" then
-	-- 			game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 3:\nFound External Script that can be cause to bugs while Auto Farming : \n\nAnti Afk \n(Anti Afk is built in script!)\n\n---------- AUTO STRAT ----------\n")
-	-- 			getgenv().ReportError("3","Found External Script in "..v:GetFullName().." , Text was : "..v.Text)
-	-- 			task.wait(0.5)
-	-- 			while true do end
-	-- 		end
-	-- 	end
-	-- end
 end)
 else
 	function scrip:Map() end
