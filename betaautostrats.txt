@@ -1663,7 +1663,15 @@ function scrip:Map(map, antimulti, type)
 			end
 		end)
 		
-		if getgenv().Matchmaking then
+		
+		
+            
+		getgenv().repeating = true
+		while task.wait(1) do
+			if getgenv().repeating then
+				getgenv().repeating = false
+				local jc = 0
+                      if getgenv().Matchmaking then
 			getgenv().repeating = false
 			local args = {
 				[1] = "Multiplayer",
@@ -1686,14 +1694,10 @@ function scrip:Map(map, antimulti, type)
 				getgenv().mmmode = "survival"
 		
 			game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
-		end
-		
-            
-		getgenv().repeating = true
-		while task.wait(1) do
-			if getgenv().repeating then
-				getgenv().repeating = false
-				local jc = 0
+		        end
+
+
+
 				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
 					local mp = Elevators.State.Map.Title
 					local rq = require(Elevators.Settings).Type
