@@ -2267,6 +2267,8 @@ spawn(function()
 		while true do end
 	end
 end)
+end
+end
 else
 	function scrip:Map() end
 	function scrip:Mode() end
@@ -2279,7 +2281,5 @@ else
 	function scrip:AutoChain() end
 	function scrip:Target() end
 	function scrip:SellAllFarms() end
-end
-end
 end
 return scrip
