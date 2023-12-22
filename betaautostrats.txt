@@ -362,7 +362,13 @@ spawn(function()
   end
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
-    local w = lib:CreateWindow(" Auto Strats(wait for wave 0 part 2) ")
+    local w = lib:CreateWindow(" Auto Strats ")
+    repeat task.wait() until getgenv().mmmap
+    if getgenv().canusenormalmap then
+    game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mmmap)
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mmmap, Vector3.new(14, 58, 56))
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
+    end
     --w:Section("Counter Disabled")
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
@@ -1629,7 +1635,7 @@ printall("Golden perks added")
 appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/stratfun2\", true))()\n")
 function scrip:Map(map, antimulti, type)
 	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
-	getgenv().mapc = map
+	getgenv().mmmap = map
 	if getgenv().Multiplayer and getgenv().PlayerType == "Player" then
 		getgenv().status = "Host control mode..."
 	end
@@ -1678,18 +1684,25 @@ function scrip:Map(map, antimulti, type)
 								}
 							}
 							
-							
-							if getgenv().mapc == "Pizza Party" then
-								getgenv().mmmap = "halloween"
-							elseif getgenv().mapc == "Badlands II" then
-								getgenv().mmmap = "badlands"
-							elseif getgenv().mapc == "Polluted Wastelands II" then
-								getgenv().mmmap = "polluted"
-							else
-                                                                game.Players.LocalPlayer:Kick(" You can't use matchmaking for normal maps (TODO) ")
-                                                        end
-							
-							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
+if getgenv().mmmap == "Pizza Party" then
+    getgenv().mmmap = "halloween"
+elseif getgenv().mmmap == "Badlands II" then
+    getgenv().mmmap = "badlands"
+elseif getgenv().mmmap == "Polluted Wastelands II" then
+    getgenv().mmmap = "polluted"
+elseif getgenv().mmmap == "Krampus Frosthold" then
+    getgenv().mmmap = "winter"
+else
+    if pcall(function()
+        return game:GetService("GamePassService"):UserOwnsGamePassAsync(3260590327, 10518590)
+    end) then
+        getgenv().canusenormalmap = true
+    else
+        game.Players.LocalPlayer:kick("you can't use matchmaking for default maps without a vip gamepass, you can use it for events(pzp,bl2,polluted, etc.) tho.")
+    end
+end
+
+ game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
                                 if not getgenv().Matchmaking then
 				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
 					local mp = Elevators.State.Map.Title
