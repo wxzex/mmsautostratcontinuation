@@ -1820,9 +1820,9 @@ function scrip:Map(map, antimulti, type)
 		end
 	end
 end
-end)	
+end	
 end
-end
+end) 
 printall("Loaded map library")
 if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt") then
 	makefolder("TDS_AutoStrat")
@@ -2266,5 +2266,7 @@ else
 	function scrip:AutoChain() end
 	function scrip:Target() end
 	function scrip:SellAllFarms() end
+end
+end
 end
 return scrip
