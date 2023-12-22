@@ -1663,16 +1663,7 @@ function scrip:Map(map, antimulti, type)
 			end
 		end)
 		
-		
-		
-            
-		getgenv().repeating = true
-		while task.wait(1) do
-			if getgenv().repeating then
-				getgenv().repeating = false
-				local jc = 0
-                      if getgenv().Matchmaking then
-			getgenv().repeating = false
+		if game.PlaceId == "3260590327" and getgenv().Matchmaking then
 			local args = {
 				[1] = "Multiplayer",
 				[2] = "single_start",
@@ -1697,7 +1688,11 @@ function scrip:Map(map, antimulti, type)
 		        end
 
 
-
+		getgenv().repeating = true
+		while task.wait(1) do
+			if getgenv().repeating and not getgenv().Matchmaking then
+				getgenv().repeating = false
+				local jc = 0
 				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
 					local mp = Elevators.State.Map.Title
 					local rq = require(Elevators.Settings).Type
