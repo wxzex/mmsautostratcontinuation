@@ -178,7 +178,7 @@ if game.PlaceId == 3260590327 then
   w:Section("JoiningStatus")
   w:Section("")
   w:Section("Discord Server :")
-  w:Button("Copy Discord Invite", function()
+  w:Button("Copy Discord Invite", function() 
     setclipboard("https://discord.com/invite/3thBJx2axb")
   end)
   w:Button("Auto Join Discord Server", function()
@@ -363,7 +363,13 @@ spawn(function()
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
     local w = lib:CreateWindow(" Auto Strats(wait for wave 0 part 2) ")
-    --w:Section("Counter Disabled")
+    --w:Section("Counter Disabled")	
+	if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold") then
+		repeat task.wait() until getgenv().mapc
+        game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mapc)
+        game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mapc, Vector3.new(14, 58, 56))
+        game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
+	end	
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
         w:Section("Troop2")
@@ -1639,6 +1645,9 @@ function scrip:Map(map, antimulti, type)
 		task.wait(0.5)
 		while true do end
 	end
+	if type == "Hardcore" and getgenv().Matchmaking then
+        game.Players.LocalPlayer:Kick("You can't use matchmaking on hardcore(TDS didn't implement that yet).")
+	end	
 	local maxplayers = 1
 	if not isgame() and getgenv().Multiplayer and getgenv().PlayerType == "Host" then
 		maxplayers = getgenv().PlayerNumber
@@ -1658,7 +1667,33 @@ function scrip:Map(map, antimulti, type)
 		end)
 		getgenv().repeating = true
 		while task.wait(1) do
-			if getgenv().repeating then
+			if getgenv().Matchmaking then
+				print'got to the matchmaking part'
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("Multiplayer", "single_create")
+
+				local startargs = {
+					[1] = "Multiplayer",
+					[2] = "single_start",
+					[3] = {
+						["count"] = 1,
+						["mode"] = "survival"
+					}
+				}
+			
+				if getgenv().mapc == "Pizza Party" then
+					startargs[3]["mode"] = "halloween"
+				elseif getgenv().mapc == "Badlands II" then
+					startargs[3]["mode"] = "badlands"
+				elseif getgenv().mapc == "Polluted Wastelands II" then
+					startargs[3]["mode"] = "polluted"
+				elseif getgenv().mapc == "Krampus Frosthold" then
+                                        startargs[3]["mode"] = "winter"
+                                end
+			
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(startargs))
+			end
+			
+			if getgenv().repeating and not getgenv().Matchmaking then
 				getgenv().repeating = false
 				local jc = 0
 				for _, Elevators in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
@@ -1798,7 +1833,6 @@ if not isfolder("TDS_AutoStrat") and not isfile(fileprefix.."Webhook (Logs).txt"
 	makefolder("TDS_AutoStrat")
 	writefile(fileprefix.."Webhook (Logs).txt", "WEBHOOK HERE")
 end
-writefile("ulszcszu.txt", "KxjhVghCJH")
 if isgame() then
 spawn(function()
 while task.wait() do
