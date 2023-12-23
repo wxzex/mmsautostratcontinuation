@@ -1,0 +1,84 @@
+local StackUnderground = false
+
+if StackUnderground then
+    ok = -10
+else
+    ok = 10
+end
+local times = 10
+local event = game:GetService("ReplicatedStorage").RemoteFunction
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/libcode", true))()
+local w = library:CreateWindow("Auto Stack")
+w:Section("Stacking")
+local Toggle = w:Toggle('Stacking Enabled', {flag = "toggle1"})
+w:Slider("Amount",
+    {
+        precise = false,
+        default = 10,
+        min = 1,
+        max = 15,
+    },
+function(v)
+	times = v
+end)
+w:Button('Upgrade All', function()
+for i,v in pairs(game.Workspace.Towers:GetChildren()) do
+    if v:WaitForChild("Owner").Value == game.Players.LocalPlayer then
+        event:InvokeServer("Troops","Upgrade","Set",{["Troop"] = v})
+        wait()
+    end
+end
+end)
+w:Section('DANGER ZONE')
+w:Button('Sell All', function()
+    for i,v in pairs(game.Workspace.Towers:GetChildren()) do
+        if v:WaitForChild("Owner").Value == game.Players.LocalPlayer then
+            event:InvokeServer("Troops","Sell",{["Troop"] = v})
+            wait()
+        end
+    end
+end)
+
+local Events = {
+    ["Troops"] = {
+        ["Place"] = function(Tower, PositionData)
+            if w.flags.toggle1 and not PositionData.CuntEmpire then
+                connection = game.Workspace.Towers.ChildAdded:Connect(function(v)
+                    connection:Disconnect()
+                    event:InvokeServer("Troops","Sell",{["Troop"] = v})
+                    wait()
+                    for c=1,times do
+                        event:InvokeServer("Troops","Place",Tower,{["Rotation"] = CFrame.new(0,ok,0,1,0,0,0,1,0,0,0,1),["Position"] = Vector3.new(PositionData.Position.X,0,PositionData.Position.Z),["CuntEmpire"] = true})
+                        wait()
+                    end
+                end)
+            end
+        end;
+    }
+}
+OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
+    local Args = {...};
+    local Self = table.remove(Args, 1);
+    local Method = getnamecallmethod();
+    EndOfFunc = false
+    
+    if (not checkcaller()) then
+        if (table.find({"InvokeServer", "FireServer"}, Method)) then
+            coroutine.wrap(function()
+                local Select = table.remove(Args, 1);
+                local Current = Events[Select];
+                if (Current) then
+                    Current = Current[table.remove(Args, 1)];
+                    while (typeof(Current) == "table") do
+                        Current = Current[table.remove(Args, 1)];
+                    end;
+                    if (typeof(Current) == "function") then
+                        local a, b = pcall(Current, unpack(Args));
+                        warn(a, b);
+                    end;
+                end;
+            end)();
+        end;
+    end;
+    return OldNamecall(...);
+end));
