@@ -363,9 +363,9 @@ spawn(function()
   if game.PlaceId == 5591597781 then
     function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
     local w = lib:CreateWindow(" Auto Strats(wait for wave 0 part 2) ")
-    --w:Section("Counter Disabled")	
+    --w:Section("Counter Disabled")
+        repeat task.wait() until getgenv().mapc
 	if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold") then
-		repeat task.wait() until getgenv().mapc
         game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mapc)
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mapc, Vector3.new(14, 58, 56))
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
