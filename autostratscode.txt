@@ -978,7 +978,7 @@ end)
 printall("More players check online")
 spawn(function()
 	task.wait(10)
-	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer and not getgenv().UserKey then
+	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer then
 		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		return;
 	else if isgame() and getgenv().Multiplayer and #game.Players:GetChildren() > getgenv().PlayerNumber and getgenv().PlayerType == "Host" then
@@ -2245,7 +2245,7 @@ end
 spawn(function()
 if isgame() then
 task.wait(60)
-if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multiplayer then
+if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multiplayer or not getgenv().Matchmaking then
 	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 end
 end
