@@ -1653,7 +1653,7 @@ function scrip:Map(map, antimulti, type)
 		maxplayers = getgenv().PlayerNumber
 		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
 	end
-	if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and not getgenv().Multiplayer then
+	if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
 		game:GetService("TeleportService"):Teleport(3260590327)
 	end
 	getgenv().timer = 0
