@@ -360,16 +360,28 @@ spawn(function()
       return true
     end
   end
-  if game.PlaceId == 5591597781 then
-    function getStateRep() for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do if v:GetAttribute("TimeScale") then return v end end end
-    local w = lib:CreateWindow(" Auto Strats(wait for wave 0 part 2) ")
-    --w:Section("Counter Disabled")	
-	if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold") then
-		repeat task.wait() until getgenv().mapc
+if game.PlaceId == 5591597781 then
+    function getStateRep() 
+        for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do 
+            if v:GetAttribute("TimeScale") then 
+                return v 
+            end 
+        end 
+    end
+
+    local w = lib:CreateWindow(" Auto Strats")
+    repeat
+        task.wait()
+    until getgenv().mapc
+
+    if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold") then
         game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mapc)
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mapc, Vector3.new(14, 58, 56))
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
-	end	
+    end
+    repeat
+        task.wait()
+    until game:GetService("ReplicatedStorage").State.Map.Value == getgenv().mapc
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
         w:Section("Troop2")
@@ -1653,9 +1665,6 @@ function scrip:Map(map, antimulti, type)
 		maxplayers = getgenv().PlayerNumber
 		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
 	end
-	if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
-		game:GetService("TeleportService"):Teleport(3260590327)
-	end
 	getgenv().timer = 0
 	spawn(function()
 	if not isgame() and not getgenv().IsMultiStrat then
@@ -2245,8 +2254,8 @@ end
 spawn(function()
 if isgame() then
 task.wait(60)
-if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and not getgenv().Multiplayer or not getgenv().Matchmaking then
-	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
+    game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 end
 end
 end)
