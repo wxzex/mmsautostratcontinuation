@@ -369,8 +369,8 @@ spawn(function()
         game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mapc)
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mapc, Vector3.new(14, 58, 56))
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
-        repeat task.wait() until game:GetService("ReplicatedStorage").State.Map.Value == getgenv().mapc
-	end	
+	end
+    repeat task.wait() until game:GetService("ReplicatedStorage").State.Map.Value == getgenv().mapc
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
         w:Section("Troop2")
