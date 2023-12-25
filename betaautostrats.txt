@@ -369,19 +369,18 @@ if game.PlaceId == 5591597781 then
         end 
     end
 
-    local w = lib:CreateWindow(" Auto Strats")
-    repeat
-        task.wait()
-    until getgenv().mapc
-
+    local w = lib:CreateWindow(" Auto Strats ")
+    repeat task.wait() until getgenv().mapc
     if getgenv().Matchmaking and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold") then
         game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("LobbyVoting", "Override", getgenv().mapc)
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Vote", getgenv().mapc, Vector3.new(14, 58, 56))
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer("LobbyVoting", "Ready")
+        task.wait(6)
+        getgenv().start = true
     end
-    repeat
-        task.wait()
-    until game:GetService("ReplicatedStorage").State.Map.Value == getgenv().mapc
+
+    if (getgenv().matchmaking and getgenv().start and not (getgenv().mapc == "Pizza Party" or getgenv().mapc == "Badlands II" or getgenv().mapc == "Polluted Wastelands II" or getgenv().mapc == "Krampus Frosthold")) or not getgenv().matchmaking then
+
     w:Section("Troop1")
     if CheckIfDisabled(getgenv().TroopName2NEW) then
         w:Section("Troop2")
@@ -637,6 +636,7 @@ if game.PlaceId == 5591597781 then
       end
     end)
   end
+end
 end)
 local GC = getconnections or get_signal_cons
 	if GC then
@@ -669,7 +669,7 @@ if game.PlaceId == 5591597781 then
   spawn(function()
     while wait(5) do
       pcall(function()
-        if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Results.Content.Visible == true then
+        if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Results.Content.Visible == true and not getgenv().Matchmaking then
           wait(5)
           getgenv().Webhook = true
           if not getgenv().Multiplayer then
@@ -1665,6 +1665,9 @@ function scrip:Map(map, antimulti, type)
 		maxplayers = getgenv().PlayerNumber
 		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
 	end
+        if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
+          game:GetService("TeleportService"):Teleport(3260590327)
+        end
 	getgenv().timer = 0
 	spawn(function()
 	if not isgame() and not getgenv().IsMultiStrat then
