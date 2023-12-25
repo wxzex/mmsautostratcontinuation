@@ -664,6 +664,7 @@ end
 if not isfile(fileprefix.."PrivateServer.txt") then
   writefile(fileprefix.."PrivateServer.txt","PRIVATE SERVER LINK HERE")
 end
+end
 if game.PlaceId == 5591597781 then
   spawn(function()
     while wait(5) do
