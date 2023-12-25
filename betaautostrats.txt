@@ -75,7 +75,7 @@ if getgenv().Multiplayer then
             if dec.action == "Teleport" then
               if game.JobId ~= dec.jobid then
                 conn:Close()
-                game:GetService("TeleportService"):TeleportToPlaceInstance(3260590327, dec.jobid, game.Players.LocalPlayer)
+                print('mplayer jobid act')
               else
                 conn:Send('{"client":"Player","action":"Join","player":'..getgenv().Player..',"hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
               end
@@ -90,7 +90,7 @@ if getgenv().Multiplayer then
             elseif dec.action == "CheckJobId" then
               if game.JobId ~= dec.jobid then
                 conn:Close()
-                game:GetService("TeleportService"):TeleportToPlaceInstance(3260590327, dec.jobid, game.Players.LocalPlayer)
+                print('checkjobid')
               else
                 conn:Send('{"client":"Player","action":"Join","player":'..getgenv().Player..',"hostId":'..getgenv().HostId..',"userId":'..game.Players.LocalPlayer.UserId..'}')
               end
@@ -150,7 +150,7 @@ if getgenv().Multiplayer then
                 end
             until (not nextCursor) or (Page >= pageLimit);
             if (serverId) then
-                TPService:TeleportToPlaceInstance(3260590327, serverId);
+                print('serverid')
             end
             else
               getgenv().player2J = false
@@ -452,7 +452,7 @@ if game.PlaceId == 5591597781 then
       until (not nextCursor) or (Page >= pageLimit);
       if (serverId) then
           getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-          TPService:TeleportToPlaceInstance(3260590327, serverId);
+          print('pusa')
       end
     end)
     else
@@ -685,7 +685,7 @@ if game.PlaceId == 5591597781 then
               if Co >= 4 then
                 getgenv().output("Failed to connect to Private Server Program")
                 wait(5)
-                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+                print('pusa pusa')
               end
               wait(1)
               until WebSocketC
@@ -704,7 +704,7 @@ if game.PlaceId == 5591597781 then
               if Co >= 4 then
                 getgenv().output("Failed to connect to Private Server Program")
                 wait(5)
-                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+                print('pusa pusa pusa')
               end
               wait(1)
               until WebSocketC
@@ -724,7 +724,7 @@ if game.PlaceId == 5591597781 then
                 if Co >= 4 then
                   getgenv().output("Failed to connect to Private Server Program")
                   wait(5)
-                  game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+                  print(' the pusa pussed the pusa ')
                 end
                 wait(1)
                 until WebSocketC
@@ -740,7 +740,7 @@ if game.PlaceId == 5591597781 then
             end
           else
             if not getgenv().Debug then
-              game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+                print('not debug then')
             end
           end
         elseif getgenv().Multiplayer and getgenv().PlayerType == "Host" then
@@ -769,7 +769,7 @@ if game.PlaceId == 5591597781 then
           until (not nextCursor) or (Page >= pageLimit);
           if (serverId) then
               getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-              TPService:TeleportToPlaceInstance(3260590327, serverId);
+              print('zxczxc pusa')
           end
         end
       end
@@ -937,7 +937,7 @@ if not isgame() then
 	end
 end
 if getgenv().StratMaintance == true then
-	if isgame() and getgenv().SkipStratMaintance ~= true then game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer) end
+	if isgame() and getgenv().SkipStratMaintance ~= true then print('strtman pusa') end
 	repeat
 		task.wait()
 		loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
@@ -945,7 +945,7 @@ if getgenv().StratMaintance == true then
 		task.wait(1)
 	until getgenv().StratMaintance == false or getgenv().SkipStratMaintance == true
 	if getgenv().StratMaintance == false then
-	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+	print('pusapusa the pusa')
 	end
 end
 getgenv().status = "Loading"
@@ -955,7 +955,7 @@ if not isgame() then
 task.wait(60)
 if not getgenv().Multiplayer then
 if getgenv().status == "Loading" or getgenv().status == "Loadout Equipped" or getgenv().status == "Equipping Loadout..." then
-	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+	print('pusa the pusa')
 end
 end
 end
@@ -982,7 +982,7 @@ spawn(function()
 	if isgame() then
 	game.Players.ChildAdded:Connect(function()
 		if #game.Players:GetChildren() > 1 and not getgenv().Multiplayer then
-			game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+			print('pusapusapusapusatest')
 		end
 	end)
 	end
@@ -991,7 +991,7 @@ printall("More players check online")
 spawn(function()
 	task.wait(10)
 	if isgame() and #game.Players:GetChildren() > 1 and not getgenv().Multiplayer then
-		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+		print('error1')
 		return;
 	else if isgame() and getgenv().Multiplayer and #game.Players:GetChildren() > getgenv().PlayerNumber and getgenv().PlayerType == "Host" then
 		local pageLimit = math.huge
@@ -1019,7 +1019,7 @@ spawn(function()
 		until (not nextCursor) or (Page >= pageLimit);
 		if (serverId) then
 			getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-			TPService:TeleportToPlaceInstance(3260590327, serverId);
+			print('pusapusapusa numero thinko')
 		end
     end
 end
@@ -1666,7 +1666,7 @@ function scrip:Map(map, antimulti, type)
 		repeat getgenv().status = "Waiting for plrs..."; task.wait(); until getgenv().FindMap
 	end
         if isgame() and game:GetService("ReplicatedStorage").State.Map.Value ~= map and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
-          game:GetService("TeleportService"):Teleport(3260590327)
+          print('pusapusathepusatop')
         end
 	getgenv().timer = 0
 	spawn(function()
@@ -2258,7 +2258,7 @@ spawn(function()
 if isgame() then
 task.wait(60)
 if game.ReplicatedStorage.State.Timer.Time.Value > 50000 and (not getgenv().Multiplayer or not getgenv().Matchmaking) then
-    game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+    print('timer value 50000')
 end
 end
 end)
