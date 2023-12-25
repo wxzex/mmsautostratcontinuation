@@ -636,6 +636,7 @@ if game.PlaceId == 5591597781 then
       end
     end)
   end
+end
 end)
 local GC = getconnections or get_signal_cons
 	if GC then
@@ -663,7 +664,6 @@ if not isfolder("TDS_AutoStrat") then
 end
 if not isfile(fileprefix.."PrivateServer.txt") then
   writefile(fileprefix.."PrivateServer.txt","PRIVATE SERVER LINK HERE")
-end
 end
 if game.PlaceId == 5591597781 then
   spawn(function()
