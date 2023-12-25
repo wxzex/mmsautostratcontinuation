@@ -368,12 +368,12 @@ w:Button("Save", function()
 end)
 w:Section("Auto_Save")
 spawn(function()
-    getgenv().AutoSave = 60
+    getgenv().AutoSave = 25
     while task.wait(1) do
         getgenv().AutoSave = getgenv().AutoSave - 1
         if getgenv().AutoSave == 0 then
             writefile(getgenv().StratName..".txt", getgenv().Generated)
-            getgenv().AutoSave = 60
+            getgenv().AutoSave = 25
         end
     end
 end)
