@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/sjkdkjlfdjnnmklcvxjNotifCr"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/justincase/sjkdkjlfdjnnmklcvxjNotifCr"))()
 if not getgenv().OtherCOAV2 then
 getgenv().OtherCOAV2 = true
 say("SCRIPT","Made by Money Maker")
