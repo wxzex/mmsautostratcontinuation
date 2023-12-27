@@ -7,7 +7,7 @@ local cc = 0
 local Commanders = {}
 local chainStatus = ""
 local rmF = game:GetService("ReplicatedStorage").RemoteFunction
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/jsdnfjdsfdjnsmvkjhlkslzLIB", true))()
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/libcode", true))()
 local w = lib:CreateWindow("Auto Chain V2")
 w:Section("Status :")
 w:Section("ChainStatus")
