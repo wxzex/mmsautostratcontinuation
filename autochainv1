@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/sjkdkjlfdjnnmklcvxjNotifCr"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/justincase/sjkdkjlfdjnnmklcvxjNotifCr"))()
 say("SCRIPT","Made by Money Maker")
 getgenv().breaks = false
 local cc = 0
