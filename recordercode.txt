@@ -1,4 +1,4 @@
-local RecVersion = "V2.3"
+local RecVersion = "V2.4"
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local State = ReplicatedStorage.State;
 local RS = game:WaitForChild('ReplicatedStorage')
