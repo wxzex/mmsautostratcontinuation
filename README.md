@@ -14,4 +14,4 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcon
 just put ur strat to autoexec
 
 # discord server for this continuation
-https://discord.gg/rSyQEkBb
+https://discord.gg/gmeSxUWCyr
