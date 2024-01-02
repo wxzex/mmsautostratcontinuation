@@ -2,7 +2,7 @@
 this is the continuation of moneymaker's tower defense simulator(on roblox) autofarm.
 
 # recorder
-```
+```lua
 getgenv().StratName = "strategyname"
 getgenv().APIVar = "TDS"
 getgenv().LoggerWindow = false
