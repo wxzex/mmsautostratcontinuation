@@ -891,9 +891,8 @@ queue_on_teleport("loadstring(readfile(\"TDS_AutoStrat/LastStrat_"..PlayerUserId
 end
 getgenv().ExecutedAlr = true
 getgenv().MapUsed = false
-loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/sjkdkjlfdjnnmklcvxjNotifCr"))()
 if isfile("DNR.txt") and not isfolder("TDS_AutoStrat") then
-	say("ERROR","Root folder removed, recreating files!", 5)
+	print("Root folder removed, recreating files!")
     makefolder("TDS_AutoStrat")
 	writefile(fileprefix.."Webhook (Logs).txt","WEBHOOK HERE")
 	writefile(fileprefix.."Webhook (Ping).txt","WEBHOOK HERE")
@@ -903,7 +902,7 @@ if isfile("DNR.txt") and not isfolder("TDS_AutoStrat") then
 	writefile(fileprefix.."PrivateServer.txt","PRIVATE SERVER LINK HERE")
 	writefile(fileprefix.."UseCount.txt",readfile("DNR.txt"))
 	task.wait(0.5)
-	say("SUCCESS","Files recreated! Don't remove this folder again!", 5)
+	print("Files recreated")
 end
 printall("Files recreted function passed")
 if not isfolder("TDS_AutoStrat") then
@@ -1934,9 +1933,9 @@ local function getHalfTime(wave,second)
 local decimal = getDecimalsBef(second)
 repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == wave or getgenv().AbortThisShit
 repeat task.wait() until RS.State.Timer.Time.Value == decimal and game.Workspace:FindFirstChild("PathArrow") or getgenv().AbortThisShit
-repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 end
 printall("Inbetween waves loaded")
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 function scrip:Place(troop, posx, posy, posz, wave, timem, times, rotarg, rotx, roty, rotz, inbetween)
 	spawn(function()
 		if not rotarg then
