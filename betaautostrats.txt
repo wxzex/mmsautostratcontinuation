@@ -1935,7 +1935,6 @@ repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == wave or getg
 repeat task.wait() until RS.State.Timer.Time.Value == decimal and game.Workspace:FindFirstChild("PathArrow") or getgenv().AbortThisShit
 end
 printall("Inbetween waves loaded")
-repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 function scrip:Place(troop, posx, posy, posz, wave, timem, times, rotarg, rotx, roty, rotz, inbetween)
 	spawn(function()
 		if not rotarg then
@@ -1949,6 +1948,7 @@ function scrip:Place(troop, posx, posy, posz, wave, timem, times, rotarg, rotx, 
 		end
 		printall("Place added to strat")
 		if isgame() then
+           repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 			printall("Game")
 			if not inbetween then
 				printall("Waiting to place normal")
@@ -1990,6 +1990,7 @@ function scrip:Upgrade(id, wave, timem, times, inbetween)
 	spawn(function()
 		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Upgrade("..id..", "..wave..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
 		if isgame() then
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 			local troop = id
 			if not inbetween then
 				printall("Upgrade normal")
@@ -2029,6 +2030,7 @@ function scrip:Sell(id, wave, timem, times, inbetween)
 	spawn(function()
 		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Sell("..id..", "..wave..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
 		if isgame() then
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui.GameGui.Hotbar.Stats.Cash.Amount.Text ~= "$0"
 			if not inbetween then
 				printall("Selling normal")
 				repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == wave and RS.State.Timer.Time.Value == conv(getDecimalsBef(times), timem) or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == conv(getDecimalsBef(times), timem) or getgenv().AbortThisShit
@@ -2079,7 +2081,7 @@ function scrip:Skip(wave, timem, times, inbetween)
 end
 printall("Loaded skip library")
 function scrip:Ability(id, aname, wave, timem, times, inbetween)
-	spawn(function()
+spawn(function()
 		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt",'TDS:Ability('..id..', "'..aname..'", '..wave..', '..timem..', '..times..', '..tostring(inbetween or "false")..')\n')
 		if isgame() then
 			if not inbetween then
