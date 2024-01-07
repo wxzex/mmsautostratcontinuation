@@ -698,7 +698,7 @@ if game.PlaceId == 5591597781 then
         end)
     end)
 else
-    if not getgenv().Debug then
+    if not getgenv().Debug and tp.Visible then
         game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
     end
 end
