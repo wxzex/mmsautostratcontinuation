@@ -657,51 +657,6 @@ getgenv().SentWebhook = false
 if not isfolder("TDS_AutoStrat") then
   makefolder("TDS_AutoStrat")
 end
-if not isfile(fileprefix.."PrivateServer.txt") then
-  writefile(fileprefix.."PrivateServer.txt","PRIVATE SERVER LINK HERE")
-end
-if game.PlaceId == 5591597781 then
-    local tp = game.Players.LocalPlayer:WaitForChild("PlayerGui", math.huge):WaitForChild("RoactGame", math.huge):WaitForChild("Rewards", math.huge):WaitForChild("content", math.huge):WaitForChild("gameOver", math.huge)
-    tp:GetPropertyChangedSignal("Visible"):Connect(function()
-        spawn(function()
-            while wait(5) do
-                pcall(function()
-                    if tp.Visible then
-                        if not getgenv().Multiplayer then
-                            if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
-                                WebSocketC = nil
-                                Co = 0
-                                repeat
-                                    spawn(function()
-                                        WebSocketC = WebSocket.connect('ws://127.0.0.1:1337')
-                                    end)
-                                    Co = Co + 1
-                                    if Co >= 4 then
-                                        getgenv().output("Failed to connect to Private Server Program")
-                                        game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
-                                    end
-                                    wait(1)
-                                until WebSocketC
-                                WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
-                                WebSocketC:Close()
-                                repeat wait() until getgenv().SentWebhook
-                                game:Shutdown()
-                            end
-                        else
-                            game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYour executor doesn't support Auto Join Private Servers.\n\n---------- AUTO STRAT ----------\n")
-                            wait(0.5)
-                            while true do end
-                        end
-                    end
-                end)
-            end
-        end)
-    end)
-else
-    if not getgenv().Debug and tp.Visible then
-        game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
-    end
-end
 
 if getgenv().Multiplayer and getgenv().PlayerType == "Host" then
     local pageLimit = math.huge
