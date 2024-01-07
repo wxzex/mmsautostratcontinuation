@@ -660,82 +660,117 @@ end
 if not isfile(fileprefix.."PrivateServer.txt") then
   writefile(fileprefix.."PrivateServer.txt","PRIVATE SERVER LINK HERE")
 end
-local tp = game.Players.LocalPlayer:WaitForChild("PlayerGui", math.huge):WaitForChild("RoactGame", math.huge):WaitForChild("Rewards", math.huge):WaitForChild("content", math.huge):WaitForChild("gameOver", math.huge)
-tp:GetPropertyChangedSignal("Visible"):Connect(function()
-    if game.PlaceId == 5591597781 then
-        spawn(function()
-            while wait(5) do
-                pcall(function()
-                    if tp.Visible then
-                        if not getgenv().Multiplayer then
-			 if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
-                            WebSocketC = nil
-                            Co = 0
-                            repeat
-                                spawn(function()
-                                    WebSocketC = WebSocket.connect('ws://127.0.0.1:1337')
-                                end)
-                                Co = Co + 1
-                                if Co >= 4 then
-                                    getgenv().output("Failed to connect to Private Server Program")
-                                    game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
-                                end
-                                wait(1)
-                            until WebSocketC
-                            WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
-                            WebSocketC:Close()
-                            repeat wait() until getgenv().SentWebhook
-                            game:Shutdown()
-                        end
-                    else
-                        game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYour executor doesn't support Auto Join Private Servers.\n\n---------- AUTO STRAT ----------\n")
-                        wait(0.5)
-                        while true do end
-                    end
+if game.PlaceId == 5591597781 then
+  spawn(function()
+    while wait(5) do
+      pcall(function()
+        if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Results.Content.Visible == true then
+          wait(5)
+          getgenv().Webhook = true
+          if not getgenv().Multiplayer then
+          if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
+            if syn then
+              WebSocketC = nil
+              Co = 0
+              repeat
+              spawn(function()
+                WebSocketC = syn.websocket.connect('ws://127.0.0.1:1337')
+              end)
+              Co = Co+1
+              if Co >= 4 then
+                getgenv().output("Failed to connect to Private Server Program")
+                wait(5)
+                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+              end
+              wait(1)
+              until WebSocketC
+              WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
+              WebSocketC:Close()
+              repeat wait() until getgenv().SentWebhook
+              game:Shutdown()
+            elseif Krnl then
+              WebSocketC = nil
+              Co = 0
+              repeat
+              spawn(function()
+                WebSocketC = Krnl.WebSocket.connect('ws://127.0.0.1:1337')
+              end)
+              Co = Co+1
+              if Co >= 4 then
+                getgenv().output("Failed to connect to Private Server Program")
+                wait(5)
+                game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+              end
+              wait(1)
+              until WebSocketC
+              WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
+              WebSocketC:Close()
+              repeat wait() until getgenv().SentWebhook
+              game:Shutdown()
+            elseif getexecutorname or identifyexecutor then
+              if string.find(getexecutorname(),"ScriptWare") or identifyexecutor() == "ScriptWare" then
+                WebSocketC = nil
+                Co = 0
+                repeat
+                spawn(function()
+                  WebSocketC = WebSocket.connect('ws://127.0.0.1:1337')
+                end)
+                Co = Co+1
+                if Co >= 4 then
+                  getgenv().output("Failed to connect to Private Server Program")
+                  wait(5)
+                  game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
                 end
-            end)
-        end
-end)
-    else
-        if not getgenv().Debug then
-            game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
-        end
-    end
-end)
-
-if getgenv().Multiplayer and getgenv().PlayerType == "Host" then
-    local pageLimit = math.huge
-    local HttpService = game:GetService('HttpService');
-    local TPService = game:GetService("TeleportService");
-    local nextCursor, serverId;
-    local minimum = math.huge;
-    local Page = 0;
-    repeat
-        local Url = "https://games.roblox.com/v1/games/3260590327/servers/Public?sortOrder=Asc&limit=100";
-        if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
-        local Servers = HttpService:JSONDecode(game:HttpGet(Url));
-        if (Servers) then
-            nextCursor = Servers.nextPageCursor or nil;
-            Page = Page + 1;
-            for _,v in pairs(Servers.data) do
-                v.playing = v.playing or math.huge;
-                v.id = v.id or '';
-                if v.id ~= game.JobId and v.playing <= minimum then
-                    minimum = v.playing;
-                    serverId = v.id;
-                end
+                wait(1)
+                until WebSocketC
+                WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
+                WebSocketC:Close()
+                repeat wait() until getgenv().SentWebhook
+                game:Shutdown()
+              end
+            else
+              game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYour executor doesn't support Auto Join Private Servers.\n\n---------- AUTO STRAT ----------\n")
+              wait(0.5)
+              while true do end
             end
+          else
+            if not getgenv().Debug then
+              game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+            end
+          end
+        elseif getgenv().Multiplayer and getgenv().PlayerType == "Host" then
+          local pageLimit = math.huge
+          local HttpService = game:GetService('HttpService');
+          local TPService = game:GetService("TeleportService");
+          local nextCursor, serverId;
+          local minimum = math.huge;
+          local Page = 0;
+          repeat
+              local Url = "https://games.roblox.com/v1/games/3260590327/servers/Public?sortOrder=Asc&limit=100";
+              if (nextCursor) then Url = Url .. "&cursor=" .. nextCursor end;
+              local Servers = HttpService:JSONDecode(game:HttpGet(Url));
+              if (Servers) then
+                  nextCursor = Servers.nextPageCursor or nil;
+                  Page = Page + 1;
+                  for _,v in pairs(Servers.data) do
+                      v.playing = v.playing or math.huge;
+                      v.id = v.id or '';
+                      if v.id ~= game.JobId and v.playing <= minimum then
+                          minimum = v.playing;
+                          serverId = v.id;
+                      end
+                  end
+              end
+          until (not nextCursor) or (Page >= pageLimit);
+          if (serverId) then
+              getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
+              TPService:TeleportToPlaceInstance(3260590327, serverId);
+          end
         end
-    until (not nextCursor) or (Page >= pageLimit);
-    if (serverId) then
-getgenv().Connection:Send('{"client":"Host","action":"Teleport","jobid":"'..serverId..'","userId":'..game.Players.LocalPlayer.UserId..',"playerTwoId":'..getgenv().Player2Id..',"playerThreeId":'..getgenv().Player3Id..',"playerFourId":'..getgenv().Player4Id..'}')
-        TPService:TeleportToPlaceInstance(3260590327, serverId);
+      end
+      end)
     end
-end
-game:GetService("GuiService").ErrorMessageChanged:Connect(function()
-game:GetService("TeleportService"):Teleport(3260590327)
-end)
-
+  end)
   spawn(function()
     while wait(0.1) do
       if getgenv().Webhook == true then
@@ -829,6 +864,7 @@ end)
       end
     end
   end)
+end
 
 
 ------------------LIB------------------
