@@ -735,6 +735,9 @@ if game.PlaceId == 5591597781 then
       end)
     end
   end)
+game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+game:GetService("TeleportService"):Teleport(3260590327)
+end)
   spawn(function()
     while wait(0.1) do
       if getgenv().Webhook == true then
