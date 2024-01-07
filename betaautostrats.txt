@@ -735,7 +735,6 @@ if game.PlaceId == 5591597781 then
       end)
     end
   end)
-end
   spawn(function()
     while wait(0.1) do
       if getgenv().Webhook == true then
