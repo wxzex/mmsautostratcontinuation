@@ -1642,8 +1642,8 @@ function scrip:Map(map, antimulti, type)
 		getgenv().repeating = true
 		while task.wait(1) do
 			if getgenv().Matchmaking then
-				getgenv().status = "Teleporting to the game..."
-				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("Multiplayer", "single_create")
+print("got to the matchmaking part")
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("Multiplayer", "single_create")
 
 				local startargs = {
 					[1] = "Multiplayer",
