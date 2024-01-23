@@ -1604,7 +1604,7 @@ if getgenv().GoldenPerks then
 	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt",generateline)
 end
 printall("Golden perks added")
-appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/stratfun2\", true))()\n")
+appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/autostratscode.txt\", true))()\n")
 function scrip:Map(map, antimulti, type)
 	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
 	getgenv().mapc = map
