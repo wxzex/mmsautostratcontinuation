@@ -1604,7 +1604,7 @@ if getgenv().GoldenPerks then
 	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt",generateline)
 end
 printall("Golden perks added")
-appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/stratfun2\", true))()\n")
+appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/betaautostrats.txt\", true))()\n")
 function scrip:Map(map, antimulti, type)
 	appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Map('"..map.."', "..tostring(antimulti)..", '"..type.."')\n")
 	getgenv().mapc = map
@@ -2168,6 +2168,34 @@ function scrip:Target(id, wave, target, timem, times, inbetween)
 	end)
 end
 printall("Target library loaded")
+function script:JesterAbility(id, wave, bomb, ability, timem, times, inbetween)
+	spawn(function()
+		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:JesterAbility("..id..", "..wave..", "..bomb..", "..ability..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
+		if isgame() then
+			if not inbetween then
+				printall("Setting jester ability normal")
+				repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == wave and RS.State.Timer.Time.Value == conv(getDecimalsBef(times), timem) or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == conv(getDecimalsBef(times), timem) or getgenv().AbortThisShit
+				printall("Setting jester ability normal")
+			else
+				printall("Setting jester ability between")
+				getHalfTime(wave,times)
+				printall("Set jester ability between")
+			end
+			addSupposed()
+			printall("Checking troop")
+			repeat task.wait() until game.Workspace.Towers:FindFirstChild(tostring(id)) or getgenv().AbortThisShit
+			wait(getDecimals(times))
+			if getgenv().AbortThisShit then
+				return 0;
+			end
+			printall("Setting Ability")
+			RSRF:InvokeServer("Troops","Option","Set",{["Troop"] = game.Workspace.Towers:WaitForChild(tostring(id)), ["Name"] = bomb, ["Value"] = ability})
+			addDidActs()
+			getgenv().output("Set Jester Ability")
+		end
+	end)
+end
+printall("Jester abilities loaded")
 function scrip:SellAllFarms(wave, timem, times, inbetween)
 	spawn(function()
 		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:SellAllFarms("..wave..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
