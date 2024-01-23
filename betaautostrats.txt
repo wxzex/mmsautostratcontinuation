@@ -2168,7 +2168,7 @@ function scrip:Target(id, wave, target, timem, times, inbetween)
 	end)
 end
 printall("Target library loaded")
-function script:JesterAbility(id, wave, bomb, ability, timem, times, inbetween)
+function scrip:JesterAbility(id, wave, bomb, ability, timem, times, inbetween)
 	spawn(function()
 		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:JesterAbility("..id..", "..wave..", "..bomb..", "..ability..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
 		if isgame() then
