@@ -940,7 +940,7 @@ end
 printall("Got staterep")
 spawn(function()
 if isgame() then
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui.RoactVote.Vote.content.votes.vote.prompt.Text == "Ready?" and getgenv().stratfullyloaded
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui.RoactVote.Vote.content.votes.vote.prompt.Text == "Ready?"
     game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
     print("pressed ready")
   end
@@ -2281,7 +2281,6 @@ else
 	function scrip:AutoChain() end
 	function scrip:Target() end
 	function scrip:SellAllFarms() end
-    function scrip:JesterAbility() end
+        function scrip:JesterAbility() end
 end
-getgenv().stratfullyloaded = true
 return scrip
