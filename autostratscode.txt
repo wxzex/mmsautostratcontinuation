@@ -2281,7 +2281,7 @@ else
 	function scrip:AutoChain() end
 	function scrip:Target() end
 	function scrip:SellAllFarms() end
-        function scrip:JesterAbility() end
+    function scrip:JesterAbility() end
 end
-return scrip
 getgenv().stratfullyloaded = true
+return scrip
