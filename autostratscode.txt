@@ -830,11 +830,6 @@ end)
       end
     end
   end)
-if isgame() then
-    repeat task.wait() until game.ReplicatedStorage.State.Timer.Time.Value == "0"
-    game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
-    print("pressed ready")
-end
 end
  
 
@@ -943,6 +938,13 @@ if isgame() then
 	repeat stateRep = getStateRep() until stateRep
 end
 printall("Got staterep")
+spawn(function()
+if isgame() then
+    repeat task.wait() until game.StarterGui.GameGui.Health.Wave == "WAVE 0" and game.StarterGui.GameGui.Health.Time == "0:00" 
+    game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
+    print("pressed ready")
+  end
+end)
 spawn(function()
 	if isgame() then
 	game.Players.ChildAdded:Connect(function()
