@@ -830,8 +830,12 @@ end)
       end
     end
   end)
+if game.PlaceId == 5591597781 and game.ReplicatedStorage.State.Timer.Time.Value == "0" then 
+    game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
+    print("pressed ready")
 end
-
+end
+ 
 
 ------------------LIB------------------
 
@@ -843,10 +847,6 @@ local function printall(text)
 		print(text)
 	end
 end
-if game.PlaceId == 5591597781 and game.ReplicatedStorage.State.Timer.Time.Value == "0" then 
-    game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
-    print("pressed ready")
-end 
 if not getexecutorname then
 	function getexecutorname() return 'Other'; end
 elseif not string.find(getexecutorname(),"ScriptWare") then
