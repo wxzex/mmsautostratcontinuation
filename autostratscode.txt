@@ -940,7 +940,7 @@ end
 printall("Got staterep")
 spawn(function()
 if isgame() then
-    repeat task.wait() until game.StarterGui.GameGui.Health.Wave == "WAVE 0" and game.StarterGui.GameGui.Health.Time == "0:00" 
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui.RoactVote.Vote.content.votes.vote.prompt == "Ready?"
     game.ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
     print("pressed ready")
   end
