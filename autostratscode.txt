@@ -670,8 +670,6 @@ if game.PlaceId == 5591597781 then
             getgenv().Webhook = true
             if not getgenv().Multiplayer then
               if readfile(fileprefix.."PrivateServer.txt") ~= "PRIVATE SERVER LINK HERE" then
-                local executorName = getexecutorname or identifyexecutor
-                if executorName and (string.find(executorName(), "ScriptWare") or executorName() == "ScriptWare") then
                   local WebSocketC = nil
                   local Co = 0
                   repeat
@@ -683,18 +681,12 @@ if game.PlaceId == 5591597781 then
                       getgenv().output("Failed to connect to Private Server Program")
                       wait(5)
                       game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
-                    end
                     wait(1)
                   until WebSocketC
                   WebSocketC:Send(readfile(fileprefix.."PrivateServer.txt"))
                   WebSocketC:Close()
                   repeat wait() until getgenv().SentWebhook
                   game:Shutdown()
-                else
-                  game.Players.LocalPlayer:Kick("\n\n---------- AUTO STRAT ----------\n\nError 4:\nYour executor doesn't support Auto Join Private Servers.\n\n---------- AUTO STRAT ----------\n")
-                  wait(0.5)
-                  while true do end
-                end
               else
                 if not getgenv().Debug then
                   game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
@@ -880,8 +872,7 @@ end
 if not isfile(fileprefix.."UseCount.txt") then
 	writefile(fileprefix.."UseCount.txt","1")
 end
-printall("Createed more file")
-loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
+printall("Created more file")
 function isgame()
 	if game.PlaceId == 5591597781 then
 		return true
@@ -894,18 +885,6 @@ if not isgame() then
 	if os.time() - game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Session", "Search", "Login").Time >= 86400 then
 		game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Login", "Claim")
 		game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Session", "Search", "Login")
-	end
-end
-if getgenv().StratMaintance == true then
-	if isgame() and getgenv().SkipStratMaintance ~= true then game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer) end
-	repeat
-		task.wait()
-		loadstring(game:HttpGet("https://banbusscripts.netlify.app/Scripts/IsAutoStratMain"))()
-		getgenv().status = "Script in maintenance, waiting..."
-		task.wait(1)
-	until getgenv().StratMaintance == false or getgenv().SkipStratMaintance == true
-	if getgenv().StratMaintance == false then
-	game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 	end
 end
 getgenv().status = "Loading"
