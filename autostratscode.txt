@@ -2175,18 +2175,18 @@ function scrip:Target(id, wave, target, timem, times, inbetween)
 	end)
 end
 printall("Target library loaded")
-function scrip:JesterAbility(id, wave, bomb, ability, timem, times, inbetween)
+function scrip:Option(id, wave, name, value, timem, times, inbetween)
 	spawn(function()
-		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:JesterAbility("..id..", "..wave..", "..bomb..", "..ability..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
+		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:Option("..id..", "..wave..", "..name..", "..value..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
 		if isgame() then
 			if not inbetween then
-				printall("Setting jester ability normal")
+				printall("Setting option normal")
 				repeat task.wait() until tonumber(stateRep:GetAttribute("Wave")) == wave and RS.State.Timer.Time.Value == conv(getDecimalsBef(times), timem) or tonumber(stateRep:GetAttribute("Wave")) == wave and (RS.State.Timer.Time.Value + 1) == conv(getDecimalsBef(times), timem) or getgenv().AbortThisShit
-				printall("Setting jester ability normal")
+				printall("Setting option normal")
 			else
-				printall("Setting jester ability between")
+				printall("Setting option between")
 				getHalfTime(wave,times)
-				printall("Set jester ability between")
+				printall("Set option between")
 			end
 			addSupposed()
 			printall("Checking troop")
@@ -2196,9 +2196,9 @@ function scrip:JesterAbility(id, wave, bomb, ability, timem, times, inbetween)
 				return 0
 			end
 			printall("Setting Ability")
-			RSRF:InvokeServer("Troops","Option","Set",{["Troop"] = game.Workspace.Towers:WaitForChild(tostring(id)), ["Name"] = bomb, ["Value"] = ability})
+			RSRF:InvokeServer("Troops","Option","Set",{["Troop"] = game.Workspace.Towers:WaitForChild(tostring(id)), ["Name"] = name, ["Value"] = value})
 			addDidActs()
-			getgenv().output("Set Jester Ability")
+			getgenv().output("Set option")
 		end
 	end)
 end
