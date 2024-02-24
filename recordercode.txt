@@ -557,9 +557,9 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
         elseif args[2] == "Option" and args[3] == "Set" then
             local Troop = args[4]
             local Index = Troop.Troop.Name
-            local bomb = Troop.Name
-            local ability = Troop.Value
-            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Option("..Index..", "..Wave..", \""..bomb.."\", \""..ability.."\", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+            local name = Troop.Name
+            local value = Troop.Value
+            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Option("..Index..", "..Wave..", \""..name.."\", \""..value.."\", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
             getgenv().recstatus = "Changed Option Of "..Troop.Troop.Name
             if getgenv().LoggerWindow then
                 getgenv().outputRec("Changed Option Of "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
