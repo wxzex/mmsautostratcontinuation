@@ -554,6 +554,18 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
                 end
                 sendw("Activated "..Info.Name.." In "..Info.Troop.Name)
             end
+        elseif args[2] == "Option" and args[3] == "Set" then
+            --		appendfile(fileprefix.."LastStrat_"..PlayerUserId..".txt","TDS:JesterAbility("..id..", "..wave..", "..bomb..", "..ability..", "..timem..", "..times..", "..tostring(inbetween or "false")..")\n")
+            local Troop = args[4]
+            local Index = Troop.Troop.Name
+            local bomb = Troop.Name
+            local ability = Troop.Value
+            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":JesterAbility("..Index..", "..Wave..", \""..bomb.."\", \""..ability.."\", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+            getgenv().recstatus = "Changed JesterAbility "..Troop.Troop.Name
+            if getgenv().LoggerWindow then
+                getgenv().outputRec("Changed Jester Ability "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
+            end
+            sendw("Changed Jester Ability "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
         end
     elseif args[1] == "Voting" and args[2] == "Skip" then
         getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Skip("..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
